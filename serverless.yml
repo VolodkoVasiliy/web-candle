@@ -7,11 +7,11 @@ provider:
   name: aws
   runtime: nodejs20.x
   stage: dev
-  region: us-east-1
+  region: eu-west-1
   profile: admin
   iamRoleStatements:
     - Effect: Allow
-      Action: 's3:*'
+      Action: '*'
       Resource: !Join [ "arn:aws:s3:::", !GetAtt bucket.BucketName ]
 
 resources: 
@@ -27,21 +27,29 @@ resources:
           IndexDocument: index.html
           ErrorDocument: error.html
     ## Specifying the policies to make sure all files inside the Bucket are avaialble to CloudFront
-    # WebAppS3BucketPolicy:
-    #   Type: AWS::S3::BucketPolicy
-    #   Properties:
-    #     Bucket:
-    #       Ref: WebAppS3Bucket
-    #     PolicyDocument:
-    #       Statement:
-    #         - Sid: PublicReadGetObject
-    #           Effect: Deny
-    #           Principal: "*"
-    #           Action:
-    #           - s3:GetObject
-    #           Resource: arn:aws:s3:::${self:resources.Resources.WebAppS3Bucket.Properties.BucketName}/*
+    WebAppS3BucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        Bucket:
+          Ref: WebAppS3Bucket
+        PolicyDocument:
+          Statement:
+            - Sid: PublicReadGetObject
+              Effect: Deny
+              Principal: "*"
+              Action:
+                - s3:GetObject
+              Resource: arn:aws:s3:::${self:resources.Resources.WebAppS3Bucket.Properties.BucketName}/*
+            - Sid: CloudGetObject
+              Effect: Allow
+              Principal:
+                Service: 
+                  - cloudfront.amazonaws.com
+              Action:
+                - s3:GetObject
+              Resource: arn:aws:s3:::${self:resources.Resources.WebAppS3Bucket.Properties.BucketName}/*
     ## Specifying the CloudFront Distribution to server your Web Application
-    WebAppCloudFrontDistribution:
+    CloudFrontDest:
       Type: AWS::CloudFront::Distribution
       Properties:
         DistributionConfig:
@@ -96,9 +104,9 @@ resources:
 
   ## In order to print out the hosted domain via `serverless info` we need to define the DomainName output for CloudFormation
   Outputs:
-    WebAppCloudFrontDistributionOutput:
+    CloudFrontDestOutput:
       Value:
-        'Fn::GetAtt': [ WebAppCloudFrontDistribution, DomainName ]
+        'Fn::GetAtt': [ CloudFrontDest, DomainName ]
 
 plugins:
   - serverless-finch

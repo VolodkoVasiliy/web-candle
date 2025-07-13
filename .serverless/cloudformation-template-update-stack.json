@@ -16,7 +16,41 @@
         }
       }
     },
-    "WebAppCloudFrontDistribution": {
+    "WebAppS3BucketPolicy": {
+      "Type": "AWS::S3::BucketPolicy",
+      "Properties": {
+        "Bucket": {
+          "Ref": "WebAppS3Bucket"
+        },
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Sid": "PublicReadGetObject",
+              "Effect": "Deny",
+              "Principal": "*",
+              "Action": [
+                "s3:GetObject"
+              ],
+              "Resource": "arn:aws:s3:::amzn-s3-candle-project-bucket/*"
+            },
+            {
+              "Sid": "CloudGetObject",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
+                  "cloudfront.amazonaws.com"
+                ]
+              },
+              "Action": [
+                "s3:GetObject"
+              ],
+              "Resource": "arn:aws:s3:::amzn-s3-candle-project-bucket/*"
+            }
+          ]
+        }
+      }
+    },
+    "CloudFrontDest": {
       "Type": "AWS::CloudFront::Distribution",
       "Properties": {
         "DistributionConfig": {
@@ -68,15 +102,15 @@
   },
   "Outputs": {
     "ServerlessDeploymentBucketName": {
-      "Value": "serverless-framework-deployments-us-east-1-d8563698-42cb",
+      "Value": "serverless-framework-deployments-eu-west-1-40cde72b-e5da",
       "Export": {
         "Name": "sls-web-candle-dev-ServerlessDeploymentBucketName"
       }
     },
-    "WebAppCloudFrontDistributionOutput": {
+    "CloudFrontDestOutput": {
       "Value": {
         "Fn::GetAtt": [
-          "WebAppCloudFrontDistribution",
+          "CloudFrontDest",
           "DomainName"
         ]
       }
