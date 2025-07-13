@@ -1,0 +1,6 @@
+export * from './Footer/Footer'
+export * from './Header/Header'
+export * from './ButtonImage/ButtonImage'
+export * from './NavigationLinks/NavigationLinks'
+export * from './Title/Title'
+export * from './Subtitle/Subtitle'

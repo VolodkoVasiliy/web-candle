@@ -1,0 +1,28 @@
+.form {
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    height: 500px;
+    width: 1000px;
+    column-gap: 100px;
+
+    .input {
+        border-color: #2C2926;
+    }
+
+    .inputMsg {
+        grid-column: 1 / 3;
+
+        & textarea {
+            height: 154px;
+        }
+    }
+
+    .submitBtn {
+        background-color: #DDA15E;
+        height: 50px;
+        width: 200px;
+        color: white;
+    }
+}

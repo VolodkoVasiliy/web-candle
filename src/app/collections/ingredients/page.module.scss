@@ -1,0 +1,53 @@
+.dividerBlock {
+    height: 180px;
+    background-color: #283618;
+}
+
+
+.textContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.imageList {
+    width: 740px;
+    height: 710px;
+    margin: 10px;
+}
+
+.ingredientsContainer {
+    display: flex;
+}
+
+.ingredientsWrapper {
+    display: flex;
+    flex-direction: column;
+    margin: 75px;
+    align-items: center;
+}
+
+.title {
+    line-height: 40px;
+    letter-spacing: 3%;
+    color: black;
+    text-align: center;
+    font-size: 32px;
+    font-family: var(--font-monserrat),
+}
+
+.list {
+    width: 600px;
+}
+
+.listItem {
+    display: flex;
+    flex-direction: row;
+    gap: 5 px;
+    line-height: 30px;
+    letter-spacing: 3%;
+    color: black;
+    text-align: left;
+    font-size: 15px;
+    font-family: var(--font-monserrat);
+}

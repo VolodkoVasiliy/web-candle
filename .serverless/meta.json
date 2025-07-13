@@ -1,6 +1,6 @@
 {
   "/Users/Vasiliy_Volodko/Documents/new app/web-candle/serverless.yml": {
-    "versionFramework": "4.17.0",
+    "versionFramework": "4.17.1",
     "servicePath": "/Users/Vasiliy_Volodko/Documents/new app/web-candle/serverless.yml",
     "serviceConfigFileName": "serverless.yml",
     "service": {
@@ -10,13 +10,13 @@
         "name": "aws",
         "runtime": "nodejs20.x",
         "stage": "dev",
-        "region": "us-east-1",
+        "region": "eu-west-1",
         "profile": "admin",
         "iamRoleStatements": [
           {
             "Effect": "Allow",
             "Action": [
-              "s3:*"
+              "*"
             ],
             "Resource": {
               "Fn::Join": [
@@ -31,92 +31,7 @@
             }
           }
         ],
-        "versionFunctions": true,
-        "compiledCloudFormationTemplate": {
-          "AWSTemplateFormatVersion": "2010-09-09",
-          "Description": "The AWS CloudFormation template for this Serverless application",
-          "Resources": {
-            "WebAppS3Bucket": {
-              "Type": "AWS::S3::Bucket",
-              "Properties": {
-                "BucketName": "amzn-s3-candle-project-bucket",
-                "AccessControl": "Private",
-                "PublicAccessBlockConfiguration": {
-                  "BlockPublicPolicy": true
-                },
-                "WebsiteConfiguration": {
-                  "IndexDocument": "index.html",
-                  "ErrorDocument": "error.html"
-                }
-              }
-            },
-            "WebAppCloudFrontDistribution": {
-              "Type": "AWS::CloudFront::Distribution",
-              "Properties": {
-                "DistributionConfig": {
-                  "Origins": [
-                    {
-                      "DomainName": "amzn-s3-candle-project-bucket.s3.amazonaws.com",
-                      "Id": "WebApp",
-                      "CustomOriginConfig": {
-                        "HTTPPort": 80,
-                        "HTTPSPort": 443,
-                        "OriginProtocolPolicy": "https-only"
-                      }
-                    }
-                  ],
-                  "Enabled": true,
-                  "DefaultRootObject": "index.html",
-                  "CustomErrorResponses": [
-                    {
-                      "ErrorCode": 404,
-                      "ResponseCode": 200,
-                      "ResponsePagePath": "/index.html"
-                    }
-                  ],
-                  "DefaultCacheBehavior": {
-                    "AllowedMethods": [
-                      "DELETE",
-                      "GET",
-                      "HEAD",
-                      "OPTIONS",
-                      "PATCH",
-                      "POST",
-                      "PUT"
-                    ],
-                    "TargetOriginId": "WebApp",
-                    "ForwardedValues": {
-                      "QueryString": false,
-                      "Cookies": {
-                        "Forward": "none"
-                      }
-                    },
-                    "ViewerProtocolPolicy": "redirect-to-https"
-                  },
-                  "ViewerCertificate": {
-                    "CloudFrontDefaultCertificate": true
-                  }
-                }
-              }
-            }
-          },
-          "Outputs": {
-            "ServerlessDeploymentBucketName": {
-              "Value": "serverless-framework-deployments-us-east-1-d8563698-42cb",
-              "Export": {
-                "Name": "sls-web-candle-dev-ServerlessDeploymentBucketName"
-              }
-            },
-            "WebAppCloudFrontDistributionOutput": {
-              "Value": {
-                "Fn::GetAtt": [
-                  "WebAppCloudFrontDistribution",
-                  "DomainName"
-                ]
-              }
-            }
-          }
-        }
+        "versionFunctions": true
       },
       "resources": {
         "Resources": {
@@ -134,7 +49,41 @@
               }
             }
           },
-          "WebAppCloudFrontDistribution": {
+          "WebAppS3BucketPolicy": {
+            "Type": "AWS::S3::BucketPolicy",
+            "Properties": {
+              "Bucket": {
+                "Ref": "WebAppS3Bucket"
+              },
+              "PolicyDocument": {
+                "Statement": [
+                  {
+                    "Sid": "PublicReadGetObject",
+                    "Effect": "Deny",
+                    "Principal": "*",
+                    "Action": [
+                      "s3:GetObject"
+                    ],
+                    "Resource": "arn:aws:s3:::amzn-s3-candle-project-bucket/*"
+                  },
+                  {
+                    "Sid": "CloudGetObject",
+                    "Effect": "Allow",
+                    "Principal": {
+                      "Service": [
+                        "cloudfront.amazonaws.com"
+                      ]
+                    },
+                    "Action": [
+                      "s3:GetObject"
+                    ],
+                    "Resource": "arn:aws:s3:::amzn-s3-candle-project-bucket/*"
+                  }
+                ]
+              }
+            }
+          },
+          "CloudFrontDest": {
             "Type": "AWS::CloudFront::Distribution",
             "Properties": {
               "DistributionConfig": {
@@ -185,10 +134,10 @@
           }
         },
         "Outputs": {
-          "WebAppCloudFrontDistributionOutput": {
+          "CloudFrontDestOutput": {
             "Value": {
               "Fn::GetAtt": [
-                "WebAppCloudFrontDistribution",
+                "CloudFrontDest",
                 "DomainName"
               ]
             }
@@ -211,13 +160,13 @@
       "name": "aws",
       "runtime": "nodejs20.x",
       "stage": "dev",
-      "region": "us-east-1",
+      "region": "eu-west-1",
       "profile": "admin",
       "iamRoleStatements": [
         {
           "Effect": "Allow",
           "Action": [
-            "s3:*"
+            "*"
           ],
           "Resource": {
             "Fn::Join": [
@@ -232,92 +181,7 @@
           }
         }
       ],
-      "versionFunctions": true,
-      "compiledCloudFormationTemplate": {
-        "AWSTemplateFormatVersion": "2010-09-09",
-        "Description": "The AWS CloudFormation template for this Serverless application",
-        "Resources": {
-          "WebAppS3Bucket": {
-            "Type": "AWS::S3::Bucket",
-            "Properties": {
-              "BucketName": "amzn-s3-candle-project-bucket",
-              "AccessControl": "Private",
-              "PublicAccessBlockConfiguration": {
-                "BlockPublicPolicy": true
-              },
-              "WebsiteConfiguration": {
-                "IndexDocument": "index.html",
-                "ErrorDocument": "error.html"
-              }
-            }
-          },
-          "WebAppCloudFrontDistribution": {
-            "Type": "AWS::CloudFront::Distribution",
-            "Properties": {
-              "DistributionConfig": {
-                "Origins": [
-                  {
-                    "DomainName": "amzn-s3-candle-project-bucket.s3.amazonaws.com",
-                    "Id": "WebApp",
-                    "CustomOriginConfig": {
-                      "HTTPPort": 80,
-                      "HTTPSPort": 443,
-                      "OriginProtocolPolicy": "https-only"
-                    }
-                  }
-                ],
-                "Enabled": true,
-                "DefaultRootObject": "index.html",
-                "CustomErrorResponses": [
-                  {
-                    "ErrorCode": 404,
-                    "ResponseCode": 200,
-                    "ResponsePagePath": "/index.html"
-                  }
-                ],
-                "DefaultCacheBehavior": {
-                  "AllowedMethods": [
-                    "DELETE",
-                    "GET",
-                    "HEAD",
-                    "OPTIONS",
-                    "PATCH",
-                    "POST",
-                    "PUT"
-                  ],
-                  "TargetOriginId": "WebApp",
-                  "ForwardedValues": {
-                    "QueryString": false,
-                    "Cookies": {
-                      "Forward": "none"
-                    }
-                  },
-                  "ViewerProtocolPolicy": "redirect-to-https"
-                },
-                "ViewerCertificate": {
-                  "CloudFrontDefaultCertificate": true
-                }
-              }
-            }
-          }
-        },
-        "Outputs": {
-          "ServerlessDeploymentBucketName": {
-            "Value": "serverless-framework-deployments-us-east-1-d8563698-42cb",
-            "Export": {
-              "Name": "sls-web-candle-dev-ServerlessDeploymentBucketName"
-            }
-          },
-          "WebAppCloudFrontDistributionOutput": {
-            "Value": {
-              "Fn::GetAtt": [
-                "WebAppCloudFrontDistribution",
-                "DomainName"
-              ]
-            }
-          }
-        }
-      }
+      "versionFunctions": true
     },
     "dashboard": {
       "isEnabledForService": false,
@@ -328,9 +192,9 @@
       "serviceProvider": null,
       "instanceParameters": null
     },
-    "serviceRawFile": "# \"org\" ensures this Service is used with the correct Serverless Framework Access Key.\norg: vasiliyvolodko\n# \"service\" is the name of this project. This will also be added to your AWS resource names.\nservice: web-candle\n\nprovider:\n  name: aws\n  runtime: nodejs20.x\n  stage: dev\n  region: us-east-1\n  profile: admin\n  iamRoleStatements:\n    - Effect: Allow\n      Action: 's3:*'\n      Resource: !Join [ \"arn:aws:s3:::\", !GetAtt bucket.BucketName ]\n\nresources: \n  Resources:\n    WebAppS3Bucket:\n      Type: AWS::S3::Bucket\n      Properties:\n        BucketName: amzn-s3-candle-project-bucket\n        AccessControl: Private\n        PublicAccessBlockConfiguration:\n          BlockPublicPolicy: true\n        WebsiteConfiguration:\n          IndexDocument: index.html\n          ErrorDocument: error.html\n    ## Specifying the policies to make sure all files inside the Bucket are avaialble to CloudFront\n    # WebAppS3BucketPolicy:\n    #   Type: AWS::S3::BucketPolicy\n    #   Properties:\n    #     Bucket:\n    #       Ref: WebAppS3Bucket\n    #     PolicyDocument:\n    #       Statement:\n    #         - Sid: PublicReadGetObject\n    #           Effect: Deny\n    #           Principal: \"*\"\n    #           Action:\n    #           - s3:GetObject\n    #           Resource: arn:aws:s3:::${self:resources.Resources.WebAppS3Bucket.Properties.BucketName}/*\n    ## Specifying the CloudFront Distribution to server your Web Application\n    WebAppCloudFrontDistribution:\n      Type: AWS::CloudFront::Distribution\n      Properties:\n        DistributionConfig:\n          Origins:\n            - DomainName: ${self:resources.Resources.WebAppS3Bucket.Properties.BucketName}.s3.amazonaws.com\n              ## An identifier for the origin which must be unique within the distribution\n              Id: WebApp\n              CustomOriginConfig:\n                HTTPPort: 80\n                HTTPSPort: 443\n                OriginProtocolPolicy: https-only\n              ## In case you want to restrict the bucket access use S3OriginConfig and remove CustomOriginConfig\n              # S3OriginConfig:\n              #   OriginAccessIdentity: origin-access-identity/cloudfront/E127EXAMPLE51Z\n          Enabled: true\n          ## Uncomment the following section in case you are using a custom domain\n          # Aliases:\n          # - mysite.example.com\n          DefaultRootObject: index.html\n          ## Since the Single Page App is taking care of the routing we need to make sure ever path is served with index.html\n          ## The only exception are files that actually exist e.h. app.js, reset.css\n          CustomErrorResponses:\n            - ErrorCode: 404\n              ResponseCode: 200\n              ResponsePagePath: /index.html\n          DefaultCacheBehavior:\n            AllowedMethods:\n              - DELETE\n              - GET\n              - HEAD\n              - OPTIONS\n              - PATCH\n              - POST\n              - PUT\n            ## The origin id defined above\n            TargetOriginId: WebApp\n            ## Defining if and how the QueryString and Cookies are forwarded to the origin which in this case is S3\n            ForwardedValues:\n              QueryString: false\n              Cookies:\n                Forward: none\n            ## The protocol that users can use to access the files in the origin. To allow HTTP use `allow-all`\n            ViewerProtocolPolicy: redirect-to-https\n          ## The certificate to use when viewers use HTTPS to request objects.\n          ViewerCertificate:\n            CloudFrontDefaultCertificate: true\n          ## Uncomment the following section in case you want to enable logging for CloudFront requests\n          # Logging:\n          #   IncludeCookies: 'false'\n          #   Bucket: mylogs.s3.amazonaws.com\n          #   Prefix: myprefix\n\n  ## In order to print out the hosted domain via `serverless info` we need to define the DomainName output for CloudFormation\n  Outputs:\n    WebAppCloudFrontDistributionOutput:\n      Value:\n        'Fn::GetAtt': [ WebAppCloudFrontDistribution, DomainName ]\n\nplugins:\n  - serverless-finch\n  - serverless-single-page-app-plugin\n\ncustom:\n  client:\n    bucketName: ${self:resources.Resources.WebAppS3Bucket.Properties.BucketName}\n    distributionFolder: dist\n    manageResources: false\n\n",
+    "serviceRawFile": "# \"org\" ensures this Service is used with the correct Serverless Framework Access Key.\norg: vasiliyvolodko\n# \"service\" is the name of this project. This will also be added to your AWS resource names.\nservice: web-candle\n\nprovider:\n  name: aws\n  runtime: nodejs20.x\n  stage: dev\n  region: eu-west-1\n  profile: admin\n  iamRoleStatements:\n    - Effect: Allow\n      Action: '*'\n      Resource: !Join [ \"arn:aws:s3:::\", !GetAtt bucket.BucketName ]\n\nresources: \n  Resources:\n    WebAppS3Bucket:\n      Type: AWS::S3::Bucket\n      Properties:\n        BucketName: amzn-s3-candle-project-bucket\n        AccessControl: Private\n        PublicAccessBlockConfiguration:\n          BlockPublicPolicy: true\n        WebsiteConfiguration:\n          IndexDocument: index.html\n          ErrorDocument: error.html\n    ## Specifying the policies to make sure all files inside the Bucket are avaialble to CloudFront\n    WebAppS3BucketPolicy:\n      Type: AWS::S3::BucketPolicy\n      Properties:\n        Bucket:\n          Ref: WebAppS3Bucket\n        PolicyDocument:\n          Statement:\n            - Sid: PublicReadGetObject\n              Effect: Deny\n              Principal: \"*\"\n              Action:\n                - s3:GetObject\n              Resource: arn:aws:s3:::${self:resources.Resources.WebAppS3Bucket.Properties.BucketName}/*\n            - Sid: CloudGetObject\n              Effect: Allow\n              Principal:\n                Service: \n                  - cloudfront.amazonaws.com\n              Action:\n                - s3:GetObject\n              Resource: arn:aws:s3:::${self:resources.Resources.WebAppS3Bucket.Properties.BucketName}/*\n    ## Specifying the CloudFront Distribution to server your Web Application\n    CloudFrontDest:\n      Type: AWS::CloudFront::Distribution\n      Properties:\n        DistributionConfig:\n          Origins:\n            - DomainName: ${self:resources.Resources.WebAppS3Bucket.Properties.BucketName}.s3.amazonaws.com\n              ## An identifier for the origin which must be unique within the distribution\n              Id: WebApp\n              CustomOriginConfig:\n                HTTPPort: 80\n                HTTPSPort: 443\n                OriginProtocolPolicy: https-only\n              ## In case you want to restrict the bucket access use S3OriginConfig and remove CustomOriginConfig\n              # S3OriginConfig:\n              #   OriginAccessIdentity: origin-access-identity/cloudfront/E127EXAMPLE51Z\n          Enabled: true\n          ## Uncomment the following section in case you are using a custom domain\n          # Aliases:\n          # - mysite.example.com\n          DefaultRootObject: index.html\n          ## Since the Single Page App is taking care of the routing we need to make sure ever path is served with index.html\n          ## The only exception are files that actually exist e.h. app.js, reset.css\n          CustomErrorResponses:\n            - ErrorCode: 404\n              ResponseCode: 200\n              ResponsePagePath: /index.html\n          DefaultCacheBehavior:\n            AllowedMethods:\n              - DELETE\n              - GET\n              - HEAD\n              - OPTIONS\n              - PATCH\n              - POST\n              - PUT\n            ## The origin id defined above\n            TargetOriginId: WebApp\n            ## Defining if and how the QueryString and Cookies are forwarded to the origin which in this case is S3\n            ForwardedValues:\n              QueryString: false\n              Cookies:\n                Forward: none\n            ## The protocol that users can use to access the files in the origin. To allow HTTP use `allow-all`\n            ViewerProtocolPolicy: redirect-to-https\n          ## The certificate to use when viewers use HTTPS to request objects.\n          ViewerCertificate:\n            CloudFrontDefaultCertificate: true\n          ## Uncomment the following section in case you want to enable logging for CloudFront requests\n          # Logging:\n          #   IncludeCookies: 'false'\n          #   Bucket: mylogs.s3.amazonaws.com\n          #   Prefix: myprefix\n\n  ## In order to print out the hosted domain via `serverless info` we need to define the DomainName output for CloudFormation\n  Outputs:\n    CloudFrontDestOutput:\n      Value:\n        'Fn::GetAtt': [ CloudFrontDest, DomainName ]\n\nplugins:\n  - serverless-finch\n  - serverless-single-page-app-plugin\n\ncustom:\n  client:\n    bucketName: ${self:resources.Resources.WebAppS3Bucket.Properties.BucketName}\n    distributionFolder: dist\n    manageResources: false\n\n",
     "command": [
-      "deploy"
+      "info"
     ],
     "options": {},
     "orgId": "8424f04c-a23b-4005-82a7-549fc76eb841",
@@ -339,105 +203,20 @@
     "userName": "vasiliyvolodko",
     "serviceProviderAwsAccountId": "579681700519",
     "serviceProviderAwsCfStackName": "web-candle-dev",
-    "serviceProviderAwsCfStackId": "arn:aws:cloudformation:us-east-1:579681700519:stack/web-candle-dev/10a2e7b0-4776-11f0-9bb9-0e593e44dc7b",
-    "serviceProviderAwsCfStackCreated": "2025-06-12T10:14:46.054Z",
-    "serviceProviderAwsCfStackUpdated": "2025-06-12T10:32:22.985Z",
+    "serviceProviderAwsCfStackId": "arn:aws:cloudformation:eu-west-1:579681700519:stack/web-candle-dev/9ca6d010-5f6c-11f0-a736-069ac6d08089",
+    "serviceProviderAwsCfStackCreated": "2025-07-12T22:07:33.892Z",
+    "serviceProviderAwsCfStackUpdated": "2025-07-13T10:54:11.975Z",
     "serviceProviderAwsCfStackStatus": "UPDATE_COMPLETE",
     "serviceProviderAwsCfStackOutputs": [
       {
-        "OutputKey": "WebAppCloudFrontDistributionOutput",
-        "OutputValue": "d3sqh8zezfg3x9.cloudfront.net"
+        "OutputKey": "CloudFrontDestOutput",
+        "OutputValue": "dqoi31do0iflp.cloudfront.net"
       },
       {
         "OutputKey": "ServerlessDeploymentBucketName",
-        "OutputValue": "serverless-framework-deployments-us-east-1-d8563698-42cb",
+        "OutputValue": "serverless-framework-deployments-eu-west-1-40cde72b-e5da",
         "ExportName": "sls-web-candle-dev-ServerlessDeploymentBucketName"
       }
-    ],
-    "compiledCloudFormationTemplate": {
-      "AWSTemplateFormatVersion": "2010-09-09",
-      "Description": "The AWS CloudFormation template for this Serverless application",
-      "Resources": {
-        "WebAppS3Bucket": {
-          "Type": "AWS::S3::Bucket",
-          "Properties": {
-            "BucketName": "amzn-s3-candle-project-bucket",
-            "AccessControl": "Private",
-            "PublicAccessBlockConfiguration": {
-              "BlockPublicPolicy": true
-            },
-            "WebsiteConfiguration": {
-              "IndexDocument": "index.html",
-              "ErrorDocument": "error.html"
-            }
-          }
-        },
-        "WebAppCloudFrontDistribution": {
-          "Type": "AWS::CloudFront::Distribution",
-          "Properties": {
-            "DistributionConfig": {
-              "Origins": [
-                {
-                  "DomainName": "amzn-s3-candle-project-bucket.s3.amazonaws.com",
-                  "Id": "WebApp",
-                  "CustomOriginConfig": {
-                    "HTTPPort": 80,
-                    "HTTPSPort": 443,
-                    "OriginProtocolPolicy": "https-only"
-                  }
-                }
-              ],
-              "Enabled": true,
-              "DefaultRootObject": "index.html",
-              "CustomErrorResponses": [
-                {
-                  "ErrorCode": 404,
-                  "ResponseCode": 200,
-                  "ResponsePagePath": "/index.html"
-                }
-              ],
-              "DefaultCacheBehavior": {
-                "AllowedMethods": [
-                  "DELETE",
-                  "GET",
-                  "HEAD",
-                  "OPTIONS",
-                  "PATCH",
-                  "POST",
-                  "PUT"
-                ],
-                "TargetOriginId": "WebApp",
-                "ForwardedValues": {
-                  "QueryString": false,
-                  "Cookies": {
-                    "Forward": "none"
-                  }
-                },
-                "ViewerProtocolPolicy": "redirect-to-https"
-              },
-              "ViewerCertificate": {
-                "CloudFrontDefaultCertificate": true
-              }
-            }
-          }
-        }
-      },
-      "Outputs": {
-        "ServerlessDeploymentBucketName": {
-          "Value": "serverless-framework-deployments-us-east-1-d8563698-42cb",
-          "Export": {
-            "Name": "sls-web-candle-dev-ServerlessDeploymentBucketName"
-          }
-        },
-        "WebAppCloudFrontDistributionOutput": {
-          "Value": {
-            "Fn::GetAtt": [
-              "WebAppCloudFrontDistribution",
-              "DomainName"
-            ]
-          }
-        }
-      }
-    }
+    ]
   }
 }
