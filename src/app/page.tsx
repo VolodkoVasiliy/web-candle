@@ -1,13 +1,17 @@
+'use client'
 import { Banner } from "@/components/Banner/Banner";
 import { ButtonImage } from "@/components/ButtonImage/ButtonImage";
 import { Container, ImageList, ImageListItem, ImageListItemBar } from "@mui/material";
 import Link from "next/link";
+import styles from './page.module.scss'
+import Image from "next/image";
+import { useWindowSize } from "@/utils/hooks";
 
 export default function Home() {
+  const { width: screenWith } = useWindowSize()
   return (
     <>
-      <Container component='section' className="bg-[url(/Main.png)] h-[600px]">
-
+      <Container component='section' className={styles.main} sx={{ height: screenWith * 0.968 }}>
       </Container>
       <Banner />
       <Container component='section' className="h-[800px]" sx={{ padding: 0 }}>

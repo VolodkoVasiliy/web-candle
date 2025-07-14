@@ -8,31 +8,31 @@ import styles from './page.module.scss'
 export default function ColellectionPage() {
     return (
         <>
-            <Container className="h-full">
-                <ImageList gap={40} cols={4}>
+            <Container className="h-full p-[20px]">
+                <ImageList className={styles.imageList}>
                     <ImageListItem>
-                        <Link href='/collections/unique' className="h-[400px]">
+                        <Link href='/collections/unique' className={styles.img}>
                             <ButtonImage src="/collectionsPage/candle.png">
                                 <Typography variant="h2" className={styles.itemBarTitle}>Candles</Typography>
                             </ButtonImage>
                         </Link>
                     </ImageListItem>
                     <ImageListItem>
-                        <Link href='/collections/unique' className="h-[400px]">
+                        <Link href='/collections/unique' className={styles.img}>
                             <ButtonImage src="/collectionsPage/heads.png">
                                 <Typography variant="h2" className={styles.itemBarTitle}>Unique Collection</Typography>
                             </ButtonImage>
                         </Link>
                     </ImageListItem>
                     <ImageListItem>
-                        <Link href='/collections/unique' className="h-[400px]">
+                        <Link href='/collections/unique' className={styles.img}>
                             <ButtonImage src="/collectionsPage/sticks.png">
                                 <Typography variant="h2" className={styles.itemBarTitle}>Accessories</Typography>
                             </ButtonImage>
                         </Link>
                     </ImageListItem>
                     <ImageListItem>
-                        <Link href='/collections/unique' className="h-[400px]">
+                        <Link href='/collections/unique' className={styles.img}>
                             <ButtonImage src="/collectionsPage/tools.png">
                                 <Typography variant="h2" className={styles.itemBarTitle}>Special Supplies</Typography>
                             </ButtonImage>
