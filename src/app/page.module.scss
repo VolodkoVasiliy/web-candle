@@ -1,0 +1,13 @@
+.main {
+    width: 100vw;
+    max-height: 600px;
+    position: relative;
+    background-image: url('/prod/home/main.png');
+    background-position: bottom;
+    background-size: contain;
+    background-repeat: no-repeat;
+
+    @media screen and (max-width: 430px) {
+        height: 430px;
+    }
+}

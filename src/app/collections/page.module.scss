@@ -3,3 +3,21 @@
     width: 70%;
     text-align: center;
 }
+
+.imageList {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 40px !important;
+
+    .img {
+        height: 400px;
+
+        @media screen and (max-width: 500px) {
+            height: 200px;
+        }
+    }
+
+    @media screen and (max-width: 1000px) {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 20px !important;
+    }
+}

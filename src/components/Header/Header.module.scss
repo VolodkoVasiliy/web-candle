@@ -6,6 +6,10 @@
     background-color: #283618;
     position: relative;
 
+    .burger {
+        display: none;
+    }
+
     & button {
         color: white;
     }
@@ -13,5 +17,32 @@
     .cartIcon {
         position: absolute;
         right: 100px;
+    }
+
+    @media screen and (max-width: 600px) {
+        flex-direction: column;
+        align-items: flex-start;
+
+
+        .cartIcon {
+            right: 30px;
+        }
+
+        .burger {
+            display: block;
+            position: relative;
+            left: 30px;
+        }
+    }
+}
+
+.drawer {
+    background-color: #283618 !important;
+    width: 30%;
+    padding-left: 10px;
+    padding-top: 30px;
+
+    & button {
+        color: white;
     }
 }
