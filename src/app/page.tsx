@@ -4,7 +4,6 @@ import { ButtonImage } from "@/components/ButtonImage/ButtonImage";
 import { Container, ImageList, ImageListItem, ImageListItemBar } from "@mui/material";
 import Link from "next/link";
 import styles from './page.module.scss'
-import Image from "next/image";
 import { useWindowSize } from "@/utils/hooks";
 
 export default function Home() {
