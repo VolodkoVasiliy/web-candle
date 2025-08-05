@@ -35,7 +35,7 @@ export default function Home() {
         </div>
       </Container>
       <Container>
-        <p>Customers Reviews</p>
+        <p className={styles.reviewTitle}>Customers Reviews</p>
         {
           reviews.map((el, i) => {
             return (
@@ -45,7 +45,7 @@ export default function Home() {
         }
       </Container>
       <Container>
-        <p>Connect With Us</p>
+        <p className={styles.connectTitle}>Connect With Us</p>
         <Social />
       </Container>
       <Container className={styles.copyrights}>
