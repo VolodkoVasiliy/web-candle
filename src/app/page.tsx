@@ -1,56 +1,59 @@
 'use client'
-import { Banner } from "@/components/Banner/Banner";
-import { ButtonImage } from "@/components/ButtonImage/ButtonImage";
-import { Container, ImageList, ImageListItem, ImageListItemBar } from "@mui/material";
-import Link from "next/link";
+
+import { Box, Container } from "@mui/material";
 import styles from './page.module.scss'
 import { useWindowSize } from "@/utils/hooks";
+import Image from "next/image";
+import { Review } from "@/components/Review/Review";
+import { reviews } from "./mocks/indes";
+import { Social } from "@/components/Social/Social";
 
 export default function Home() {
   const { width: screenWith } = useWindowSize()
   return (
-    <>
-      <Container component='section' className={styles.main} sx={{ height: screenWith * 0.968 }}>
+    <Container maxWidth='sm'>
+      <Box sx={{
+        backgroundImage: `url(/new/landing/picture1.png)`,
+        width: '100dvw',
+        height: `${screenWith * 0.82}px`,
+        backgroundSize: 'cover'
+      }}></Box>
+      <h1 className={styles.title}>Handmade Soy Wax Candles</h1>
+      <p className={styles.subtitle}>Discover our unique collections, each crafted with care and designed to bring warmth and tranquility to your space.</p>
+      <Container className={styles.collectionsWrapper}>
+        <div className={styles.collectionsList}>
+          {
+            [1, 2, 3, 4, 5].map(el => {
+              return (
+                <Box sx={{ width: 'max-content' }} key={el}>
+                  <Image src='/new/landing/collection.png' width={240} height={240} alt="sample" />
+                  <p className={styles.collectionName}>Collection {el}</p>
+                </Box>
+              )
+            })
+          }
+        </div>
       </Container>
-      <Banner />
-      <Container component='section' className="h-[800px]" sx={{ padding: 0 }}>
-        <ImageList gap={10} className="m-[10px] h-full" cols={4}>
-          <ImageListItem rows={1} cols={2}>
-            <Link href={'/collections'} className="h-[100%]">
-              <ButtonImage src="/masterclass.png" />
-              <ImageListItemBar title='Masterclass' subtitle='Visit our Masterclass' position="top" />
-            </Link>
-          </ImageListItem>
-          <ImageListItem cols={2} rows={2}>
-            <Link href={'/collections'} className="h-[100%]">
-              <ButtonImage src="/shop.png" />
-              <ImageListItemBar title='Shop Our Candles' subtitle='View Our Products' position="top" />
-            </Link>
-          </ImageListItem>
-          <ImageListItem>
-            <Link href={'/special'} className="h-[100%]">
-              <ButtonImage src="/special.png" />
-              <ImageListItemBar title='Buy Special Supplies' subtitle='View Page' position="top" />
-            </Link>
-          </ImageListItem>
-          <ImageListItem>
-            <Link href={'/collections/ingredients'} className="h-[100%]">
-              <ButtonImage src="/ingredients.png" />
-              <ImageListItemBar title='Our Ingredients' subtitle='Check Information' position="top" />
-            </Link>
-          </ImageListItem>
-        </ImageList>
+      <Container>
+        <p>Customers Reviews</p>
+        {
+          reviews.map((el, i) => {
+            return (
+              <Review {...el} key={`${el.name}+${i}`} />
+            )
+          })
+        }
       </Container>
-      <Container component='section' className="h-[800px]">
-
+      <Container>
+        <p>Connect With Us</p>
+        <Social />
       </Container>
-      <Container component='section' className="h-[1100px]">
-
+      <Container className={styles.copyrights}>
+        <p>Privacy Policy</p>
+        <p>Terms of Service</p>
+        <p>© 2025 Inner Light. All rights reserved. 123 Candlelight Lane, Harmony, CA</p>
       </Container>
-      <Container component='section' className="bg-[url(/candlesImg.png)] h-[800px]">
-
-      </Container>
-    </>
+    </Container>
   );
 }
 

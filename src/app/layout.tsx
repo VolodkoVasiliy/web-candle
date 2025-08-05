@@ -1,20 +1,20 @@
 import "./globals.css";
-import { Footer, Header } from "@/components";
+import { Header } from "@/components";
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import styles from './layout.module.scss'
 import clsx from 'clsx'
 
-import { Montserrat_Alternates } from 'next/font/google';
+import { Epilogue } from 'next/font/google';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../styles/theme';
 import { Container } from "@mui/material";
 import StoreProvider from "./StoreProvider";
 
-const monserrat = Montserrat_Alternates({
+const epiloque = Epilogue({
   weight: ['300', '400', '500', '700'],
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-monserrat',
+  variable: '--font-epiloque',
 });
 
 
@@ -24,7 +24,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={monserrat.variable}>
+    <html lang="en" className={epiloque.variable}>
       <body
         className={clsx(styles.root)}
       >
@@ -35,7 +35,7 @@ export default function RootLayout({
               <Container maxWidth='lg' component={'main'}>
                 {children}
               </Container>
-              <Footer />
+              {/* <Footer /> */}
             </StoreProvider>
           </ThemeProvider>
         </AppRouterCacheProvider>

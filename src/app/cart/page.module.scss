@@ -1,0 +1,117 @@
+.pageHeader {
+    display: flex;
+    position: relative;
+    height: 70px;
+    justify-content: center;
+    align-items: center;
+
+    .pageArrowButton {
+        position: absolute;
+        left: 5px;
+    }
+}
+
+.productListContainer {
+    height: 50dvh;
+}
+
+.productContainer {
+    display: flex;
+    padding: 0 16px;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 25px;
+
+    .productWrapper {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .productImg {
+        width: 70px;
+        height: 70px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        border-radius: 8px;
+    }
+
+    .quantitySelector {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 90px;
+
+        .add,
+        .remove {
+            height: 28px !important;
+            width: 28px !important;
+            background-color: #F5F2F0 !important;
+            border-radius: 14px !important;
+            min-width: 28px;
+            color: #171412;
+            overflow: hidden;
+        }
+    }
+
+}
+
+.inputCode {
+    padding-top: 24px;
+    margin: 16px;
+    height: 56px;
+    width: calc(100dvw - 32px);
+    border: 1px solid #E5E0DB;
+    border-radius: 12px;
+    line-height: 54px;
+    padding: 20px;
+    font-size: 16px;
+    color: #171412;
+
+    &::placeholder {
+        color: #8A7361;
+    }
+}
+
+.applyCodeButton {
+    margin-right: 16px !important;
+    align-self: flex-end;
+    width: 80px;
+    height: 40px;
+    background-color: #F5F2F0 !important;
+    border-radius: 20px !important;
+    text-transform: none !important;
+    color: #171412 !important;
+}
+
+.bottomPart {
+    width: 100dvw;
+    position: absolute;
+    bottom: 30px;
+    left: 0;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+
+    .subtotal {
+        display: flex;
+        padding: 16px;
+        justify-content: space-between;
+        color: #171412;
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .checkoutButton {
+        width: calc(100dvw - 32px);
+        margin: 0 auto !important;
+        height: 48px;
+        background-color: #F27A21 !important;
+        border-radius: 24px;
+        text-align: center;
+        font-size: 16px;
+        font-weight: 800;
+        text-transform: none;
+        color: #171412;
+    }
+}
