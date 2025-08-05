@@ -42,8 +42,11 @@
         &.firstPage {
             background-color: rgba(0, 0, 0, 0.228);
 
-            .burger {
-                color: white;
+            .burger,
+            .cartIcon {
+                svg {
+                    fill: white;
+                }
             }
         }
     }
