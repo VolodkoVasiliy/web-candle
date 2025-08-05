@@ -1,0 +1,110 @@
+.img {
+    margin-top: 70px;
+    width: 100dvw;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.productTitle {
+    padding-top: 20px;
+    padding-left: 16px;
+    color: #171412;
+    font-size: 22px;
+    line-height: 28px;
+    font-weight: 800;
+}
+
+.productDescription {
+    padding-top: 12px;
+    padding-left: 16px;
+    color: #171412;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.details {
+    padding-top: 30px;
+    padding-left: 16px;
+    color: #171412;
+    font-size: 18px;
+    line-height: 23px;
+    font-weight: 800;
+}
+
+.priceContainer {
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+
+    .priceButton,
+    .addButton {
+        color: #171412;
+        width: 84px;
+        height: 40px;
+        border-radius: 20px;
+        background-color: #F5F2F0;
+        font-weight: 800;
+        font-size: 14px;
+        text-transform: none;
+    }
+
+    .addButton {
+        width: 120px;
+        background-color: #F27A21;
+    }
+}
+
+.relatedTitle {
+    padding-left: 16px;
+    padding-top: 16px;
+    font-size: 18px;
+    font-weight: 800;
+    color: #171412;
+    line-height: 23px;
+}
+
+.relatedWrapper {
+    padding-top: 24px;
+    overflow: scroll;
+    scrollbar-width: none;
+    width: calc(100dvw - 16px);
+    padding-left: 16px;
+
+    .relatedList {
+        display: flex;
+        gap: 16px;
+        width: max-content;
+
+        .relatedProductContainer {
+            width: 160px;
+
+            .productImg {
+                width: 160px;
+                height: 160px;
+                background-size: cover;
+                border-radius: 12px;
+            }
+
+            .relatedProductName {
+                font-size: 16px;
+                color: #171412;
+                font-weight: 500;
+                padding-top: 16px;
+            }
+
+            .relatedProductName {
+                color: #171412;
+                font-size: 16px;
+                font-weight: 500;
+                line-height: 24px;
+            }
+
+            .relatedProductPrice {
+                color: #8A7361;
+                font-size: 14px;
+                line-height: 21px;
+            }
+        }
+    }
+}

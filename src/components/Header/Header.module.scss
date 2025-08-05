@@ -3,7 +3,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #283618;
     position: relative;
 
     .burger {
@@ -22,27 +21,58 @@
     @media screen and (max-width: 600px) {
         flex-direction: column;
         align-items: flex-start;
-
+        position: fixed;
+        background-color: white;
 
         .cartIcon {
             right: 30px;
+
+            svg {
+                color: #171412;
+            }
         }
 
         .burger {
             display: block;
             position: relative;
             left: 30px;
+            color: #171412;
+        }
+
+        &.firstPage {
+            background-color: rgba(0, 0, 0, 0.228);
+
+            .burger {
+                color: white;
+            }
         }
     }
 }
 
 .drawer {
-    background-color: #283618 !important;
-    width: 30%;
+    background-color: white !important;
+    width: 70%;
     padding-left: 10px;
     padding-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .link {
+        height: 48px;
+        width: 293px;
+        border-radius: 24px;
+        display: flex;
+        align-items: center;
+    }
 
     & button {
-        color: white;
+        color: #171412;
+        text-transform: capitalize;
+        font-weight: 800;
+        font-size: 16px;
+        line-height: 20px;
+        display: flex;
+        gap: 32px;
     }
 }

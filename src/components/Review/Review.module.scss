@@ -1,0 +1,30 @@
+.reviewContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+
+    .starsContainer {
+        padding-top: 12px;
+        display: flex;
+    }
+
+    .titleContainer {
+        display: flex;
+        gap: 12px;
+
+        .name {
+            font-size: 16px;
+            font-weight: 500;
+            color: #171412;
+        }
+
+        .timeStamp {
+            font-size: 14px;
+            color: #8A7361;
+        }
+    }
+
+    .review {
+        padding-top: 12px;
+    }
+}

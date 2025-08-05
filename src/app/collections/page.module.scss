@@ -1,23 +1,38 @@
-.itemBarTitle {
-    color: white;
-    width: 70%;
+.pageTitle {
+    margin-top: 80px;
     text-align: center;
+    color: #171412;
+    font-size: 18px;
 }
 
-.imageList {
-    grid-template-columns: repeat(4, 1fr) !important;
-    gap: 40px !important;
+.productList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 16px;
 
-    .img {
-        height: 400px;
+    .product {
+        width: calc(50% - 16px);
 
-        @media screen and (max-width: 500px) {
-            height: 200px;
+        .productImg {
+            height: 231px;
+            width: 100%;
+            background-size: cover;
+            border-radius: 12px;
         }
-    }
 
-    @media screen and (max-width: 1000px) {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 20px !important;
+        .productTitle {
+            padding-top: 12px;
+            color: #171412;
+            font-size: 16px;
+            line-height: 24px;
+            font-weight: 500;
+        }
+
+        .productSubtitle {
+            color: #8A7361;
+            font-size: 14px;
+            line-height: 21px;
+        }
     }
 }

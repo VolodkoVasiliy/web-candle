@@ -2,6 +2,7 @@
 
 * {
   overflow-x: hidden;
+  font-family: var(--font-epiloque);
 }
 
 :root {

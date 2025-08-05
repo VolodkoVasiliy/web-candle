@@ -1,0 +1,22 @@
+.container {
+    padding: 16px;
+
+    .detailWrapper {
+        display: grid;
+        grid-template-columns: 25% 70%;
+        height: 50px;
+        align-items: center;
+
+        .key {
+            color: #8A7361;
+            font-size: 14px;
+            line-height: 21px;
+        }
+
+        .value {
+            color: #171412;
+            font-size: 14px;
+            line-height: 21px;
+        }
+    }
+}

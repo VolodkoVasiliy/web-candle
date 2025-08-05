@@ -1,0 +1,12 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+
+    .media {
+        display: flex;
+        height: 72px;
+        align-items: center;
+        gap: 12px;
+    }
+}
