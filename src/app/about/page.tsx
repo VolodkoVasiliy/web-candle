@@ -39,7 +39,7 @@ export default function AboutPage() {
                     <p className={styles.founderBio}>Founder & Artisan</p>
                 </Box>
             </Box>
-            <p className={styles.founderStory}>Lena Hryhorieva's passion for candle making ignited during a period of personal reflection. Seeking solace and creativity, she began experimenting with natural materials and fragrances, eventually leading to the birth of Inner Light. Her vision is to create candles that not only illuminate spaces but also inspire moments of peace and mindfulness.</p>
+            <p className={styles.founderStory}>{`Lena Hryhorieva's passion for candle making ignited during a period of personal reflection. Seeking solace and creativity, she began experimenting with natural materials and fragrances, eventually leading to the birth of Inner Light. Her vision is to create candles that not only illuminate spaces but also inspire moments of peace and mindfulness.`}</p>
             <p className={styles.workshopTitle}>Our Workshop</p>
             <Box className={styles.workshopContainer}></Box>
         </Container>

@@ -1,4 +1,4 @@
-import { IItem, mockShopData } from '@/app/mocks/indes'
+import { IItem } from '@/app/mocks/indes'
 import { convertPrice } from '@/utils/utils'
 import { Box } from '@mui/material'
 import Link from 'next/link'

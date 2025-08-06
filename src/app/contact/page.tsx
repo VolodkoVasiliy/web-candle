@@ -1,8 +1,7 @@
 'use client'
 
-import { Box, Button, Container, Input, Link, TextField } from "@mui/material";
+import { Box, Button, Container, Link } from "@mui/material";
 import styles from './page.module.scss'
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import clsx from "clsx";
 import Image from "next/image";
 import { useState } from "react";
@@ -57,14 +56,14 @@ export default function ContactPage() {
     return (
         <Container className={styles.container}>
             <p className={styles.title}>Get in touch</p>
-            <p className={styles.contactInfo}>We're here to help! Whether you have a question about our candles, need assistance with an order, or just want to share your thoughts, we'd love to hear from you. Reach out to us through any of the methods below, and we'll get back to you as soon as possible.</p>
+            <p className={styles.contactInfo}>{`We're here to help! Whether you have a question about our candles, need assistance with an order, or just want to share your thoughts, we'd love to hear from you. Reach out to us through any of the methods below, and we'll get back to you as soon as possible.`}</p>
             <p className={styles.contactTitle}>Contact Information</p>
             <Box className={styles.contacts}>
                 <Link href='mailto:inner.light.wroclaw@gmail.com' target="_blank" className={clsx(styles.media)}>
                     <Image src={'/new/contacts/mail.png'} alt="instagram" width={48} height={48} />
                     <Box>
                         <p className={styles.title}>Email</p>
-                        <p className={styles.subtitle}>support@inner-light.pl</p>
+                        <p className={styles.subtitle}>{`support@inner-light.pl`}</p>
                     </Box>
                 </Link>
 
@@ -84,7 +83,7 @@ export default function ContactPage() {
                         className={clsx(styles.inputName, { [styles.invalid]: nameError })}
                         value={name}
                         onChange={e => {
-                            NAME_REGEXP.test(e.target.value) && setNameError(false)
+                            if (NAME_REGEXP.test(e.target.value)) setNameError(false)
                             setName(e.target.value)
                         }}
                         placeholder="Name"
@@ -97,7 +96,7 @@ export default function ContactPage() {
                         className={clsx(styles.inputMail, { [styles.invalid]: mailError })}
                         value={mail}
                         onChange={e => {
-                            MAIL_REGEXP.test(e.target.value) && setMailError(false)
+                            if (MAIL_REGEXP.test(e.target.value)) setMailError(false)
                             setMail(e.target.value)
                         }}
                         placeholder="Email"
@@ -110,7 +109,7 @@ export default function ContactPage() {
                         className={clsx(styles.inputMsg, { [styles.invalid]: msgError })}
                         value={msg}
                         onChange={e => {
-                            e && setMsgError(false)
+                            if (e.target.value) setMsgError(false)
                             setMsg(e.target.value)
                         }}
                         placeholder="Message"

@@ -2,13 +2,11 @@
 
 import { Box, Container } from "@mui/material";
 import styles from './page.module.scss'
-import { Collection, mockShopData } from "../mocks/indes";
+import { mockShopData } from "../mocks/indes";
 import { convertPrice } from "@/utils/utils";
 import Link from "next/link";
-import { useState } from "react";
 
 export default function CollectionsPage() {
-    const [currentCollection, setCurrentCollection] = useState<Collection>(Collection.ESSENTIALS)
     return (
         <Container>
             <h1 className={styles.pageTitle}>Inner Light</h1>

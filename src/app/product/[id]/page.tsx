@@ -6,7 +6,6 @@ import styles from './page.module.scss'
 import { IItem, mockShopData } from "@/app/mocks/indes";
 import { Details } from "@/components/Details/Details";
 import { convertPrice } from "@/utils/utils";
-import Link from "next/link";
 import { addProductToCart, decreaseQuantity, increaseQuantity, selectCart } from "@/store/cart/cartSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { ProductCarousel } from "@/components/ProductCarousel/ProductCarousel";
