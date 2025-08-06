@@ -1,18 +1,17 @@
-.container {
+.quantitySelector {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 1px solid black;
-    width: 120px;
-    height: 34px;
+    width: 90px;
 
-    .button {
-        width: 34px;
-        height: 32px;
-        padding: 0;
-
-        &:hover {
-            background-color: rgb(240, 237, 237);
-        }
+    .add,
+    .remove {
+        height: 28px !important;
+        width: 28px !important;
+        background-color: #F5F2F0 !important;
+        border-radius: 14px !important;
+        min-width: 28px;
+        color: #171412;
+        overflow: hidden;
     }
 }

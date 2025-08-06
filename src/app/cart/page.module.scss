@@ -35,25 +35,6 @@
         background-repeat: no-repeat;
         border-radius: 8px;
     }
-
-    .quantitySelector {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 90px;
-
-        .add,
-        .remove {
-            height: 28px !important;
-            width: 28px !important;
-            background-color: #F5F2F0 !important;
-            border-radius: 14px !important;
-            min-width: 28px;
-            color: #171412;
-            overflow: hidden;
-        }
-    }
-
 }
 
 .inputCode {

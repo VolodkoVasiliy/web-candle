@@ -7,6 +7,7 @@ import styles from './page.module.scss'
 import { useState } from "react"
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from "next/navigation"
+import { QuantitySelector } from "@/components/QantitySelector/QuantitySelector"
 
 export default function CartPage() {
     const dispatch = useAppDispatch()
@@ -30,11 +31,11 @@ export default function CartPage() {
                                 <Box className={styles.productImg} sx={{ backgroundImage: `url(${product.imgUrl})` }} />
                                 <p>{product.title}</p>
                             </Box>
-                            <Box className={styles.quantitySelector}>
-                                <Button onClick={() => dispatch(decreaseQuantity(product))} className={styles.remove}>-</Button>
-                                <p>{product.quantity}</p>
-                                <Button onClick={() => dispatch(increaseQuantity(product))} className={styles.add}>+</Button>
-                            </Box>
+                            <QuantitySelector
+                                quantity={product.quantity}
+                                increase={() => dispatch(increaseQuantity(product))}
+                                decrease={() => dispatch(decreaseQuantity(product))}
+                            />
                         </Box>
                     )
                 })}

@@ -1,0 +1,161 @@
+.container {
+    padding: 70px 16px 0;
+    color: #171412;
+
+    .title {
+        font-size: 22px;
+        font-weight: 800;
+    }
+
+    .contactInfo {
+        padding-top: 16px;
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .contactTitle {
+        font-size: 22px;
+        font-weight: 800;
+        padding-top: 20px;
+    }
+
+    .contacts {
+        .media {
+            display: flex;
+            height: 72px;
+            align-items: center;
+            gap: 12px;
+            color: #171412;
+            text-decoration: none;
+
+            .title {
+                font-size: 16px;
+                font-weight: 500;
+                line-height: 24px;
+            }
+
+            .subtitle {
+                color: #827369;
+                font-size: 14px;
+                line-height: 21px;
+            }
+        }
+    }
+
+    .feedbackTitle {
+        font-size: 22px;
+        font-weight: 800;
+        padding-top: 20px;
+    }
+
+    .follow {
+        font-size: 22px;
+        font-weight: 800;
+        padding-top: 20px;
+    }
+
+    .form {
+        padding-top: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        align-items: center;
+
+        .inputWrapper {
+            width: 100%;
+            height: 82px;
+
+            &:last-of-type {
+                height: 180px;
+            }
+
+            .error {
+                color: rgb(255, 45, 45);
+            }
+        }
+
+        .inputName,
+        .inputMail {
+            height: 56px;
+            margin-left: 2px;
+            margin-top: 2px;
+            width: calc(100% - 5px);
+            box-sizing: border-box;
+            border: none;
+            border-radius: 12px;
+            line-height: 54px;
+            padding: 20px;
+            font-size: 16px;
+            color: #171412;
+            background-color: #F5F2F2;
+
+            &.invalid {
+                border: 1px solid rgb(255, 45, 45);
+            }
+
+            &::placeholder {
+                color: #8A7361;
+            }
+        }
+
+        .inputMsg {
+            margin-left: 2px;
+            margin-top: 2px;
+            height: 144px;
+            border-radius: 12px;
+            background-color: #F5F2F2;
+            padding: 20px;
+            width: calc(100% - 5px);
+
+            &.invalid {
+                border: 1px solid rgb(255, 45, 45);
+            }
+
+            &::placeholder {
+                color: #8A7361;
+            }
+        }
+
+        .submitBtn {
+            width: 84px;
+            height: 40px;
+            background-color: #F2E3D6;
+            color: #171412;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 800;
+            line-height: 21px;
+            align-self: flex-end;
+        }
+
+    }
+
+    .social {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        padding-bottom: 30px;
+        padding-top: 22px;
+
+        .followMedia {
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+
+            img {
+                border-radius: 50%;
+            }
+
+            .followMediaTitle {
+                font-size: 14px;
+                line-height: 21px;
+                font-weight: 500;
+                color: #171412;
+            }
+        }
+
+    }
+
+}
