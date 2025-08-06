@@ -5,7 +5,6 @@ import Link from "next/link"
 import styles from './Header.module.scss'
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
-import { useIsPhoneOrSmaller } from "@/utils/hooks";
 import { useMemo, useState } from "react";
 import StorefrontRoundedIcon from '@mui/icons-material/StorefrontRounded';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
@@ -25,7 +24,6 @@ const PAGE_HEADER_TITLE = {
 } as Record<string, string>
 
 export const Header = () => {
-    const isPhoneOrSmaller = useIsPhoneOrSmaller()
     const [isDrawerOpen, setIsDrawerOpen] = useState(false)
     const pathName = usePathname()
     console.log(pathName)
