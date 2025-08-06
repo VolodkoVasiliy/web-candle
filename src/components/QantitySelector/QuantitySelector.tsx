@@ -1,4 +1,4 @@
-import { Box, ButtonBase, Typography } from '@mui/material'
+import { Box, Button } from '@mui/material'
 import styles from './QuantitySelector.module.scss'
 
 interface QuantitySelectorProps {
@@ -9,10 +9,10 @@ interface QuantitySelectorProps {
 
 export const QuantitySelector = ({ quantity, increase, decrease }: QuantitySelectorProps) => {
     return (
-        <Box className={styles.container}>
-            <ButtonBase className={styles.button} onClick={decrease}><Typography variant='text20'>-</Typography></ButtonBase>
-            <Typography variant='text14'>{quantity}</Typography>
-            <ButtonBase className={styles.button} onClick={increase}><Typography variant='text20'>+</Typography></ButtonBase>
+        <Box className={styles.quantitySelector}>
+            <Button onClick={decrease} className={styles.remove}>-</Button>
+            <p>{quantity}</p>
+            <Button onClick={increase} className={styles.add}>+</Button>
         </Box>
     )
 }

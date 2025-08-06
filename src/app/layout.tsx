@@ -32,7 +32,7 @@ export default function RootLayout({
           <ThemeProvider theme={theme}>
             <StoreProvider>
               <Header />
-              <Container maxWidth='lg' component={'main'}>
+              <Container maxWidth='sm' component={'main'}>
                 {children}
               </Container>
               {/* <Footer /> */}

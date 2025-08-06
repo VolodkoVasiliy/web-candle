@@ -18,6 +18,12 @@ const NO_HEADER_PAGES = [
     'cart'
 ]
 
+const PAGE_HEADER_TITLE = {
+    '/collections/v2': 'Inner Light Collections',
+    '/shop': 'Shop',
+    '/contact': 'Contact'
+} as Record<string, string>
+
 export const Header = () => {
     const isPhoneOrSmaller = useIsPhoneOrSmaller()
     const [isDrawerOpen, setIsDrawerOpen] = useState(false)
@@ -46,58 +52,39 @@ export const Header = () => {
             })}
             component={'header'} maxWidth='lg'
         >
-            {isPhoneOrSmaller ?
-                <>
-                    <IconButton className={styles.burger} onClick={() => setIsDrawerOpen(true)}>
-                        <MenuIcon />
-                    </IconButton>
-                    <Drawer open={isDrawerOpen} onClose={handleClose} slotProps={{
-                        paper: {
-                            className: styles.drawer
-                        }
-                    }}>
-                        <Link className={styles.link} href='/'>
-                            <Button startIcon={<HomeRoundedIcon />} onClick={handleClose}>Home</Button>
-                        </Link>
-                        <Link className={styles.link} href='/shop'>
-                            <Button startIcon={<StorefrontRoundedIcon />} onClick={handleClose}>Shop</Button>
-                        </Link>
-                        <Link className={styles.link} href='/collections'>
-                            <Button startIcon={<PermMediaRoundedIcon />} onClick={handleClose}>Collections</Button>
-                        </Link>
-                        <Link className={styles.link} href='/about'>
-                            <Button startIcon={<InfoOutlineRoundedIcon />} onClick={handleClose}>About</Button>
-                        </Link>
-                        <Link className={styles.link} href='/contact'>
-                            <Button onClick={handleClose}>Contact</Button>
-                        </Link>
-                        <Link className={styles.link} href='/contact'>
-                            <Button onClick={handleClose}>Follow us</Button>
-                        </Link>
-                    </Drawer>
-                    <Link href='/cart' className={styles.cartIcon}>
-                        <LocalMallOutlinedIcon sx={{ color: 'white' }} />
-                    </Link>
-                </>
-                :
-                <>
-                    <Link href='/'>
-                        <Button>Home</Button>
-                    </Link>
-                    <Link href='/collections'>
-                        <Button>Shop</Button>
-                    </Link>
-                    <Link href='/collections/about'>
-                        <Button>About us</Button>
-                    </Link>
-                    <Link href='/collections/contact'>
-                        <Button>Contacts</Button>
-                    </Link>
-                    <Link href='/collections/basket' className={styles.cartIcon}>
-                        <LocalMallOutlinedIcon sx={{ color: 'white' }} />
-                    </Link>
-                </>
-            }
+            <IconButton className={styles.burger} onClick={() => setIsDrawerOpen(true)}>
+                <MenuIcon />
+            </IconButton>
+
+            <h1 className={styles.headerTitle}>{PAGE_HEADER_TITLE[pathName]}</h1>
+
+            <Link href='/cart' className={styles.cartIcon}>
+                <LocalMallOutlinedIcon sx={{ color: 'white' }} />
+            </Link>
+            <Drawer open={isDrawerOpen} onClose={handleClose} slotProps={{
+                paper: {
+                    className: styles.drawer
+                }
+            }}>
+                <Link className={styles.link} href='/'>
+                    <Button startIcon={<HomeRoundedIcon />} onClick={handleClose}>Home</Button>
+                </Link>
+                <Link className={styles.link} href='/shop'>
+                    <Button startIcon={<StorefrontRoundedIcon />} onClick={handleClose}>Shop</Button>
+                </Link>
+                <Link className={styles.link} href='/collections/v2'>
+                    <Button startIcon={<PermMediaRoundedIcon />} onClick={handleClose}>Collections</Button>
+                </Link>
+                <Link className={styles.link} href='/about'>
+                    <Button startIcon={<InfoOutlineRoundedIcon />} onClick={handleClose}>About</Button>
+                </Link>
+                <Link className={styles.link} href='/contact'>
+                    <Button onClick={handleClose}>Contact</Button>
+                </Link>
+                <Link className={styles.link} href='/contact'>
+                    <Button onClick={handleClose}>Follow us</Button>
+                </Link>
+            </Drawer>
 
         </Container>
     )

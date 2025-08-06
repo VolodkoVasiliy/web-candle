@@ -8,5 +8,18 @@
         height: 72px;
         align-items: center;
         gap: 12px;
+        color: #171412;
+
+        .title {
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 24px;
+        }
+
+        .subtitle {
+            color: #827369;
+            font-size: 14px;
+            line-height: 21px;
+        }
     }
 }

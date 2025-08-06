@@ -22,6 +22,14 @@ export interface IItem {
     scent: string;
     type: string;
 }
+
+export interface ICollection {
+    id: string;
+    title: string;
+    content: string;
+    products: IItem[];
+}
+
 export const mockShopData: IItem[] = [
     {
         id: '1',
@@ -137,4 +145,25 @@ export const reviews: IReview[] = [
         stars: 5,
         review: 'These candles are absolutely divine! The scents are so unique and long-lasting. They create such a cozy atmosphere in my home.'
     }
+]
+
+export const mockCollections: ICollection[] = [
+    {
+        id: '1',
+        title: 'Secret Message Candles',
+        content: 'Discover the magic within each candle. As the soy wax melts, a hidden message is revealed, adding a touch of mystery and inspiration to your space.',
+        products: mockShopData.filter(sd => sd.collection === Collection.ESSENTIALS)
+    },
+    {
+        id: '2',
+        title: 'Secret Message Candles',
+        content: 'Discover the magic within each candle. As the soy wax melts, a hidden message is revealed, adding a touch of mystery and inspiration to your space.',
+        products: mockShopData.filter(sd => sd.collection === Collection.LUXORY)
+    },
+    {
+        id: '3',
+        title: 'Secret Message Candles',
+        content: 'Discover the magic within each candle. As the soy wax melts, a hidden message is revealed, adding a touch of mystery and inspiration to your space.',
+        products: mockShopData.filter(sd => sd.collection === Collection.ESSENTIALS)
+    },
 ]
