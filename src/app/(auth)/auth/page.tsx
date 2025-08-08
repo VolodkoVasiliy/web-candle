@@ -2,12 +2,9 @@
 
 import { useState, useTransition } from "react";
 import { signIn } from "@/utils/auth-client";
-import Link from "next/link";
 import { Loader2 } from "lucide-react";
-
-import { cn } from "@/utils/utils";
 import { useRouter } from "next/navigation";
-import { Box, Button, Checkbox, Container } from "@mui/material";
+import { Box, Button, Container } from "@mui/material";
 import styles from './page.module.scss'
 import { BetterFetchError } from "better-auth/react";
 
