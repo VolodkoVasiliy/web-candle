@@ -14,7 +14,8 @@ import { usePathname } from "next/navigation";
 import clsx from 'clsx'
 
 const NO_HEADER_PAGES = [
-    'cart'
+    'cart',
+    'auth'
 ]
 
 const PAGE_HEADER_TITLE = {
