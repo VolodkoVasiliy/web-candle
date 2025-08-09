@@ -15,11 +15,12 @@ import clsx from 'clsx'
 
 const NO_HEADER_PAGES = [
     'cart',
-    'auth'
+    'auth',
+    'admin'
 ]
 
 const PAGE_HEADER_TITLE = {
-    '/collections/v2': 'Inner Light Collections',
+    '/collections': 'Inner Light Collections',
     '/shop': 'Shop',
     '/contact': 'Contact'
 } as Record<string, string>
@@ -27,7 +28,6 @@ const PAGE_HEADER_TITLE = {
 export const Header = () => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false)
     const pathName = usePathname()
-    console.log(pathName)
 
     const isHeaderShown = useMemo(() => {
         return !NO_HEADER_PAGES.some((page) => {
@@ -71,7 +71,7 @@ export const Header = () => {
                 <Link className={styles.link} href='/shop'>
                     <Button startIcon={<StorefrontRoundedIcon />} onClick={handleClose}>Shop</Button>
                 </Link>
-                <Link className={styles.link} href='/collections/v2'>
+                <Link className={styles.link} href='/collections'>
                     <Button startIcon={<PermMediaRoundedIcon />} onClick={handleClose}>Collections</Button>
                 </Link>
                 <Link className={styles.link} href='/about'>

@@ -1,29 +1,28 @@
 'use client'
-
-import { Box, Container } from "@mui/material";
+import { Collection } from "@/components/Collection/Collection";
+import { Container } from "@mui/material";
 import styles from './page.module.scss'
-import { mockShopData } from "../mocks/indes";
-import { convertPrice } from "@/utils/utils";
-import Link from "next/link";
+import { useEffect, useState } from "react";
+import { Collection as CollectionType, getCollectionsWithProducts, Product } from "@/app/actions";
+import { Loading } from "@/components/Loader/Loading";
 
-export default function CollectionsPage() {
+export default function CollectionPage2() {
+    const [collections, setCollections] = useState<Array<CollectionType & { products: Product[] }>>([])
+
+    useEffect(() => {
+        getCollectionsWithProducts()
+            .then(data => setCollections(data))
+    }, [])
+
+    if (collections.length === 0) {
+        return <Loading />
+    }
+
     return (
-        <Container>
-            <h1 className={styles.pageTitle}>Inner Light</h1>
-            <Box className={styles.productList}>
-                {
-                    mockShopData.map(el => {
-                        return (
-                            <Link className={styles.product} key={el.id} href={`/product/${el.id}`}>
-                                <Box className={styles.productImg} sx={{ backgroundImage: `url(${el.imgUrl})` }} />
-                                <p className={styles.productTitle}>{el.title}</p>
-                                <p className={styles.productSubtitle}>{el.subtitle}</p>
-                                <p className={styles.productPrice}>{convertPrice(el.price)}</p>
-                            </Link>
-                        )
-                    })
-                }
-            </Box>
+        <Container className={styles.container}>
+            {
+                collections.map(collection => <Collection key={collection.id} {...collection} />)
+            }
         </Container>
     )
 }

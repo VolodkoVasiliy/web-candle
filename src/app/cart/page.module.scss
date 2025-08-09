@@ -96,3 +96,36 @@
         color: #171412;
     }
 }
+
+
+.emptyCart {
+    width: 100%;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    align-items: center;
+
+    p {
+        color: #171412;
+        font-size: 24px;
+        font-weight: 800;
+    }
+
+    .goShoppingBtn {
+        width: calc(100dvw - 32px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto !important;
+        height: 48px;
+        background-color: #F27A21 !important;
+        border-radius: 24px;
+        text-align: center;
+        font-size: 18px;
+        font-weight: 500;
+        text-transform: none;
+        color: #171412;
+    }
+}

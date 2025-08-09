@@ -31,6 +31,15 @@ export default function RootLayout({
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
             <StoreProvider>
+              <h1 style={{
+                height: '30px',
+                width: '100vw',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                position: 'fixed',
+                backgroundColor: 'red'
+              }}>TEST PERIOD NOT SELLING ANYTHING</h1>
               <Header />
               <Container maxWidth='sm' component={'main'}>
                 {children}

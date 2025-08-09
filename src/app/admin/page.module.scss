@@ -1,0 +1,31 @@
+.pageHeader {
+    display: flex;
+    position: relative;
+    height: 70px;
+    justify-content: center;
+    align-items: center;
+
+    .pageArrowButton {
+        position: absolute;
+        left: 5px;
+    }
+}
+
+.container {
+    padding: 16px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    color: #171412;
+
+    .productTitle,
+    .collectionsTitle {
+        font-size: 22px;
+        font-weight: 800;
+    }
+
+    .link {
+        font-size: 16px;
+    }
+}
