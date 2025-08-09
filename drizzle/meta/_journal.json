@@ -8,6 +8,27 @@
       "when": 1754680125049,
       "tag": "0000_flimsy_wither",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1754747415598,
+      "tag": "0001_living_captain_america",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1754759522640,
+      "tag": "0002_open_stingray",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1754761487718,
+      "tag": "0003_thick_blackheart",
+      "breakpoints": true
     }
   ]
 }

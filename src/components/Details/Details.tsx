@@ -1,22 +1,14 @@
 import { Box, Divider } from '@mui/material';
 import styles from './Details.module.scss'
-import { Collection } from '@/app/mocks/indes';
-
-export interface IDetails {
-    size: string;
-    burnTime: string;
-    scent: string;
-    type: string;
-    collection: Collection;
-}
+import { Product } from '@/app/actions';
 
 export const Details = ({
-    collection,
+    collectionName,
     scent,
     size,
     burnTime,
     type
-}: IDetails) => {
+}: Product & { collectionName: string }) => {
     return (
         <Box className={styles.container}>
             <Divider flexItem />
@@ -42,7 +34,7 @@ export const Details = ({
             <Divider flexItem />
             <Box className={styles.detailWrapper}>
                 <p className={styles.key}>Collection</p>
-                <p className={styles.value}>{collection}</p>
+                <p className={styles.value}>{collectionName}</p>
             </Box>
         </Box>
     )

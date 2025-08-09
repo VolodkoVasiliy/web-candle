@@ -9,6 +9,6 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
 }
 export const config = {
-    // matcher: ["/", "/about", "/cart", "/api", "/collections", "/contact", "/product/:id", "/shop"], // Apply middleware to specific routes
-    matcher: ["/((?!api|auth|_next/static|_next/image).*)"],
+    matcher: ["/admin", "/admin/product", "/admin/collection", "/checkout"], // Apply middleware to specific routes
+    // matcher: ["/((?!api|auth|_next/static|_next/image).*)"],
 };

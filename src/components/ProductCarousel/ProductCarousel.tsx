@@ -1,10 +1,9 @@
-import { IItem } from '@/app/mocks/indes'
-import { convertPrice } from '@/utils/utils'
 import { Box } from '@mui/material'
 import Link from 'next/link'
 import styles from './ProductCarousel.module.scss'
+import { Product } from '@/app/actions'
 
-export const ProductCarousel = ({ products, withPrice = true }: { products: IItem[], withPrice?: boolean }) => {
+export const ProductCarousel = ({ products, withPrice = true }: { products: Product[], withPrice?: boolean }) => {
     return (
         <Box className={styles.relatedWrapper}>
             <Box className={styles.relatedList}>
@@ -12,9 +11,9 @@ export const ProductCarousel = ({ products, withPrice = true }: { products: IIte
                     products.map(el => {
                         return (
                             <Link href={`/product/${el.id}`} key={el.id} className={styles.relatedProductContainer} >
-                                <Box className={styles.productImg} sx={{ backgroundImage: `url(${el.imgUrl})` }} />
-                                <p className={styles.relatedProductName}>{el.title}</p>
-                                {withPrice && <p className={styles.relatedProductPrice}>{convertPrice(el.price)}</p>}
+                                <Box className={styles.productImg} sx={{ backgroundImage: `url(${el.imageUrl})` }} />
+                                <p className={styles.relatedProductName}>{el.productName}</p>
+                                {withPrice && <p className={styles.relatedProductPrice}>{el.price} zl</p>}
                             </Link>
                         )
                     })
