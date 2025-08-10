@@ -2,7 +2,7 @@
     padding-top: 24px;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 10px;
     align-items: center;
     width: 90vw;
     margin: 0 auto;
@@ -52,11 +52,11 @@
         }
     }
 
-    .inputWrapper {
+    .inputAreaWrapper {
         width: 100%;
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: 5px;
 
         .textArea {
             height: 144px;
@@ -75,7 +75,13 @@
                 border: 1px solid rgb(255, 45, 45);
             }
         }
+    }
 
+    .inputWrapper {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
 
         .inputLabel {
             color: #171412;
@@ -85,7 +91,7 @@
         }
 
         .input {
-            height: 56px;
+            height: 40px;
             margin-left: 2px;
             margin-top: 2px;
             width: calc(100% - 5px);
