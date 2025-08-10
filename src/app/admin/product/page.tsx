@@ -93,25 +93,25 @@ export default function AddProductPage() {
             <Box component={'form'} className={styles.form} onSubmit={handleSubmit(submitHandler)}>
 
                 <div className={styles.inputWrapper}>
-                    <label className={styles.inputLabel} htmlFor={'name'}>Product Name</label>
+                    <label className={styles.inputLabel} htmlFor={'name'}>Название продукта</label>
                     <input className={styles.input} {...register('name', { required: true })} />
                     {formState.errors.name && <p className={styles.error}>Required</p>}
                 </div>
 
                 <div className={styles.inputWrapper}>
-                    <label className={styles.inputLabel} htmlFor={'subtitle'}>Product Subtitle</label>
+                    <label className={styles.inputLabel} htmlFor={'subtitle'}>Короткое описание продукта</label>
                     <input className={styles.input} {...register('subtitle', { required: true })} />
                     {formState.errors.name && <p className={styles.error}>Required</p>}
                 </div>
 
-                <div className={styles.inputWrapper}>
-                    <label className={styles.inputLabel} htmlFor={'description'}>Description</label>
+                <div className={styles.inputAreaWrapper}>
+                    <label className={styles.inputLabel} htmlFor={'description'}>Описание</label>
                     <textarea className={styles.textArea} {...register('description', { required: true })} />
                     {formState.errors.description && <p className={styles.error}>Required</p>}
                 </div>
 
                 <div className={styles.inputWrapper}>
-                    <label className={styles.inputLabel} htmlFor={'price'}>Price</label>
+                    <label className={styles.inputLabel} htmlFor={'price'}>Цена (в злотых в грошувках)</label>
                     <input
                         type='number'
                         {
@@ -129,31 +129,31 @@ export default function AddProductPage() {
                 </div>
 
                 <div className={styles.inputWrapper}>
-                    <label className={styles.inputLabel} htmlFor={'type'}>Type</label>
+                    <label className={styles.inputLabel} htmlFor={'type'}>Тип свечи</label>
                     <input className={styles.input} {...register('type', { required: true })} />
                     {formState.errors.type && <p className={styles.error}>Required</p>}
                 </div>
 
                 <div className={styles.inputWrapper}>
-                    <label className={styles.inputLabel} htmlFor={'scent'}>Scent</label>
+                    <label className={styles.inputLabel} htmlFor={'scent'}>Запах/состав</label>
                     <input className={styles.input} {...register('scent', { required: true })} />
                     {formState.errors.scent && <p className={styles.error}>Required</p>}
                 </div>
 
                 <div className={styles.inputWrapper}>
-                    <label className={styles.inputLabel} htmlFor={'size'}>Size</label>
+                    <label className={styles.inputLabel} htmlFor={'size'}>Размер</label>
                     <input className={styles.input} {...register('size', { required: true })} />
                     {formState.errors.size && <p className={styles.error}>required</p>}
                 </div>
 
                 <div className={styles.inputWrapper}>
-                    <label className={styles.inputLabel} htmlFor={'burnTime'}>Burn Time</label>
+                    <label className={styles.inputLabel} htmlFor={'burnTime'}>Время горения</label>
                     <input className={styles.input} {...register('burnTime', { required: true })} />
                     {formState.errors.burnTime && <p className={styles.error}>required</p>}
                 </div>
 
                 <div className={styles.inputSelectWrapper}>
-                    <label className={styles.inputLabel} htmlFor={'collection'}>Collection</label>
+                    <label className={styles.inputLabel} htmlFor={'collection'}>Коллекция</label>
                     <select {...register('collection', { valueAsNumber: true, required: true })} className={styles.inputSelect}>
                         {collections.map(c => {
                             return (
@@ -172,7 +172,7 @@ export default function AddProductPage() {
                     tabIndex={-1}
                     startIcon={<CloudUploadIcon />}
                 >
-                    Upload image
+                    Загрузить картинку (не более 4,5 мб)
                     <input type='file' {...register('image')} style={{
                         clip: 'rect(0 0 0 0)',
                         clipPath: 'inset(50%)',
@@ -186,7 +186,7 @@ export default function AddProductPage() {
                     }} />
                 </Button>
 
-                <Button type='submit' className={styles.submitBtn}>Add Product</Button>
+                <Button type='submit' className={styles.submitBtn}>Добавить продукт</Button>
             </Box>
             <Snackbar
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
