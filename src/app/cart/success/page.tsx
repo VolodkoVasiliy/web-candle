@@ -1,7 +1,9 @@
-import { Container } from '@mui/material'
+import { Box, Container, IconButton } from '@mui/material'
 import styles from './page.module.scss'
 import { redirect } from 'next/navigation'
 import { stripe } from '@/utils/stripe'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Link from 'next/link';
 
 export default async function SuccessPage({
     searchParams,
@@ -17,8 +19,6 @@ export default async function SuccessPage({
         expand: ['line_items', 'payment_intent']
     })
 
-    console.log(res)
-
     if (res.status === 'open') {
         return redirect('/')
     }
@@ -26,10 +26,19 @@ export default async function SuccessPage({
     if (res.status === 'complete') {
         return (
             <Container className={styles.container}>
-                <h1 className={styles.title}>Order Confirmation</h1>
-                <p></p>
-                <p></p>
-                <p></p>
+                <Box className={styles.pageHeader}>
+                    <IconButton className={styles.pageArrowButton}>
+                        <Link href={'/'}>
+                            <ArrowBackIcon color="inherit" />
+                        </Link>
+                    </IconButton>
+                    <h1>Order Confirmation</h1>
+                </Box>
+                <Box className={styles.confirmationBox}>
+                    <p className={styles.title}>Thank you for your order!</p>
+                    <p className={styles.text}>Your order has been placed and is being processed. You will receive an email confirmation shortly.</p>
+                </Box>
+                <Link href={'/'} className={styles.btn}>Continue shopping</Link>
             </Container>
         )
     }

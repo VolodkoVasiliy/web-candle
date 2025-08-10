@@ -5,7 +5,10 @@ import { collection } from "@/utils/schema/collection-schema"
 import { product } from "@/utils/schema/product-schema";
 import { createInsertSchema } from 'drizzle-zod';
 import { put } from '@vercel/blob';
-import { eq } from 'drizzle-orm';
+import { eq, getTableColumns } from 'drizzle-orm';
+import { orderHeader, orderItem } from "@/utils/schema/order-schema";
+import { stripe } from "@/utils/stripe";
+import { headers } from "next/headers";
 
 export async function getCollections() {
     return await db.select().from(collection);
@@ -37,21 +40,27 @@ export type Product = typeof product.$inferInsert;
 
 const productInsertSchema = createInsertSchema(product);
 
-export async function addProduct(newProduct: Product & { image: File }) {
+export async function addProduct(newProduct: Omit<Product, 'priceId'> & { image: File }) {
     try {
         const blob = await put(newProduct.image.name, newProduct.image, {
             access: 'public',
             addRandomSuffix: true
         });
+        console.log('1')
+        const { id } = await stripe.prices.create({
+            currency: 'pln',
+            unit_amount: newProduct.price,
+            product_data: {
+                name: newProduct.productName,
+            },
+        });
 
-        const parsed = productInsertSchema.parse(newProduct)
-
-        await db.insert(product).values({ ...parsed, imageUrl: blob.url })
-
+        const parsed = productInsertSchema.parse({ ...newProduct, priceId: id, imageUrl: blob.url })
+        await db.insert(product).values({ ...parsed })
         return { success: true }
 
     } catch {
-        return { success: false }
+        throw new Error('Smth went wrong')
     }
 
 }
@@ -61,15 +70,15 @@ export async function getProductByCollectionId(id: number): Promise<Product[]> {
     return res
 }
 
-export async function getProductWithCollectionById(id: number): Promise<{ product: Product, collection: Collection }> {
-    const res = await db.select().from(product).innerJoin(collection, eq(product.collectionId, collection.id)).where(eq(product.id, id))
-    console.log(res)
+export async function getProductWithCollectionById(id: number): Promise<{ product: Omit<Product, 'createdAt' | 'updatedAt'>, collection: Collection }> {
+    //eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { createdAt, updatedAt, ...rest } = getTableColumns(product)
+    const res = await db.select({ product: { ...rest }, collection }).from(product).innerJoin(collection, eq(product.collectionId, collection.id)).where(eq(product.id, id))
     return res[0]
 }
 
 export async function getCollectionsWithProducts() {
     const res = await db.select().from(collection).leftJoin(product, eq(collection.id, product.collectionId)).all()
-    console.log(res)
     return res.reduce<Array<Collection & { products: Product[] }>>((acc, { collection, product }) => {
         const index = acc.findIndex(e => e.id === collection.id)
         if (index !== -1 && product) {
@@ -88,3 +97,42 @@ export async function getAllProducts(): Promise<Product[]> {
     return await db.select().from(product)
 }
 
+export type OrderHeader = typeof orderHeader.$inferInsert;
+export type OrderItem = typeof orderItem.$inferInsert;
+
+
+const orderHeaderInsertSchema = createInsertSchema(orderHeader);
+const orderItemInsertSchema = createInsertSchema(orderItem);
+
+
+export async function placeOrder(newOrderHeader: OrderHeader, products: Array<Product & { quantity: number }>) {
+    const headersList = await headers()
+    const origin = headersList.get('origin')
+
+    const parsedHeader = orderHeaderInsertSchema.parse(newOrderHeader)
+    const resp = await db.insert(orderHeader).values(parsedHeader).returning({ orderId: orderHeader.id })
+
+    const orderItems: OrderItem[] = products.map(p => {
+        return {
+            order_id: resp[0].orderId,
+            product_id: p.id!,
+            quantity: p.quantity
+        }
+    })
+    const parsedItems = orderItems.map(i => orderItemInsertSchema.parse(i))
+
+    await db.insert(orderItem).values(parsedItems)
+
+    const { url } = await stripe.checkout.sessions.create({
+        line_items: products.map(p => ({
+            price: p.priceId!,
+            quantity: p.quantity,
+        })),
+        mode: 'payment',
+        success_url: `${origin}/cart/success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${origin}/?canceled=true`
+    });
+    console.log(url)
+    return url
+
+}

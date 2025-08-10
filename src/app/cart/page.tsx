@@ -8,8 +8,8 @@ import { useState } from "react"
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from "next/navigation"
 import { QuantitySelector } from "@/components/QantitySelector/QuantitySelector"
-import { StartCheckoutButton } from "./StartCheckoutButton"
 import { EmptyCart } from "./EmptyCart"
+import Link from "next/link"
 export default function CartPage() {
     const dispatch = useAppDispatch()
     const { products } = useAppSelector(selectCart)
@@ -52,7 +52,7 @@ export default function CartPage() {
                                 <p>Subtotal</p>
                                 <p>{products.reduce((acc, pr) => acc += pr.price * pr.quantity, 0)}</p>
                             </Box>
-                            <StartCheckoutButton />
+                            <Link className={styles.checkoutButton} href={'/cart/checkout'}>Go to checkout</Link>
                         </Box>
                     </>
             }

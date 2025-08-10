@@ -2,9 +2,9 @@ import { Button } from '@mui/material'
 import styles from './page.module.scss'
 import { redirect } from 'next/navigation'
 
-export const StartCheckoutButton = () => {
+export const PlaceOrder = () => {
     const startCheckout = async () => {
-        const res = await fetch('http://localhost:3000/api/checkout_sessions', {
+        const res = await fetch('/api/checkout_sessions', {
             method: 'POST',
             body: JSON.stringify({
                 product: 'candle',
@@ -16,6 +16,6 @@ export const StartCheckoutButton = () => {
     }
 
     return (
-        <Button className={styles.checkoutButton} onClick={startCheckout}>Checkout</Button>
+        <Button className={styles.checkoutButton} onClick={startCheckout}>Place Order</Button>
     )
 }

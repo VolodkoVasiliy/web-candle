@@ -31,7 +31,6 @@ export const Header = () => {
 
     const isHeaderShown = useMemo(() => {
         return !NO_HEADER_PAGES.some((page) => {
-            console.log(pathName.includes(page))
             return pathName.includes(page)
         })
     }, [pathName])
