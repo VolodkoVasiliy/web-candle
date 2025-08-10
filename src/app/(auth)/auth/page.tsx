@@ -20,8 +20,7 @@ export default function SignIn() {
             await signIn.email(
                 { email, password },
                 {
-                    onSuccess(context) {
-                        console.log(context)
+                    onSuccess() {
                         router.push("/");
                     },
                     onError(context) {

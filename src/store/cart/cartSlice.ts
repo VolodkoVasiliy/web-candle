@@ -10,29 +10,30 @@ const initialState: CartState = {
     products: []
 }
 
-
 export const cartSlice = createSlice({
     name: 'cart',
-    initialState,
+    initialState: initialState,
     reducers: {
+        initializeCart: (state, action: PayloadAction<Array<Product & { quantity: number }>>) => {
+            state.products = action.payload
+        },
         addProductToCart: (state, action: PayloadAction<Product>) => {
-            if (state.products.find(p => p.id === action.payload.id)) {
-                cartSlice.caseReducers.increaseQuantity(state, action)
-            } else {
-                state.products.push({ ...action.payload, quantity: 1 })
-            }
+            state.products = [...state.products, { ...action.payload, quantity: 1 }]
+            localStorage.setItem('cart', JSON.stringify(state.products))
         },
         removeProductFromCart: (state, action: PayloadAction<Product>) => {
-            console.log('deleting')
+            console.log(state.products)
             state.products = state.products.filter(p => p.id !== action.payload.id)
+            localStorage.setItem('cart', JSON.stringify(state.products))
         },
         increaseQuantity: (state, action: PayloadAction<Product>) => {
-            console.log('increasing')
+            console.log(state.products)
             const product = state.products.find(p => p.id === action.payload.id)
             if (!product) {
                 return
             }
             product.quantity += 1
+            localStorage.setItem('cart', JSON.stringify(state.products))
         },
         decreaseQuantity: (state, action: PayloadAction<Product>) => {
             const product = state.products.find(p => p.id === action.payload.id)
@@ -46,11 +47,12 @@ export const cartSlice = createSlice({
             }
 
             product.quantity -= 1
+            localStorage.setItem('cart', JSON.stringify(state.products))
         },
     }
 })
 
-export const { addProductToCart, removeProductFromCart, increaseQuantity, decreaseQuantity } = cartSlice.actions
+export const { initializeCart, addProductToCart, removeProductFromCart, increaseQuantity, decreaseQuantity } = cartSlice.actions
 export const selectCart = (state: RootState) => state.cart
 
 export default cartSlice.reducer

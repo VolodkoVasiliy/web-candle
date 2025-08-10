@@ -1,1 +1,0 @@
-ALTER TABLE `collection` ADD `image_url` text;

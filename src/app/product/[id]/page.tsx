@@ -22,7 +22,7 @@ export default function ProductPage({
     const [relatedProducts, setRelatedProducts] = useState<Product[]>([])
     const dispatch = useAppDispatch()
     const { products: cartProducts } = useAppSelector(selectCart)
-
+    console.log(cartProducts)
     useEffect(() => {
         getProductWithCollectionById(Number(id)).then(data => {
             setProduct(data.product)
@@ -67,8 +67,8 @@ export default function ProductPage({
                         />
                 }
             </Box>
-            <p className={styles.productTitle}>Serenity Candle</p>
-            <p className={styles.productDescription}>Hand-poured soy wax candle with a blend of lavender and chamomile essential oils. Creates a calming and peaceful atmosphere.</p>
+            <p className={styles.productTitle}>{product.productName}</p>
+            <p className={styles.productDescription}>{product.productDescription}</p>
             <p className={styles.details}>Details</p>
             <Details {...product} collectionName={collection.collectionName} />
             <p className={styles.relatedTitle}>Related Products</p>

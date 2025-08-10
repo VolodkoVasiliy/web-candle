@@ -1,11 +1,12 @@
 'use client'
 
-import { Box, Button, Container, Divider, Link } from "@mui/material";
+import { Box, Button, Container, Divider } from "@mui/material";
 import styles from './page.module.scss'
 import { useEffect, useMemo, useState } from "react";
 import clsx from 'clsx'
 import { Collection as CollectionType, getCollectionsWithProducts, Product } from "@/app/actions";
 import { Loading } from "@/components/Loader/Loading";
+import Link from "next/link";
 
 export default function ShopPage() {
     const [filter, setFilter] = useState<string>('All')
