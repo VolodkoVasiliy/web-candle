@@ -9,7 +9,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { Loading } from '@/components/Loader/Loading';
 import clsx from 'clsx';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { redirect, useRouter } from "next/navigation"
+import { redirect } from "next/navigation"
 import imageBlobReduce from 'image-blob-reduce'
 
 interface IFormInputs {
@@ -32,7 +32,6 @@ export default function AddProductPage() {
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState('')
     const [isSuccess, setIsSuccess] = useState(true)
-    const router = useRouter();
 
     const handleClose = (
         event: React.SyntheticEvent | Event,

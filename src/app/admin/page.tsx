@@ -1,8 +1,7 @@
-import { Box, Container, IconButton } from '@mui/material'
+import { Box, Container } from '@mui/material'
 import styles from './page.module.scss'
 import Link from 'next/link'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { redirect } from "next/navigation"
 
 export default function AdminPage() {
     return (
