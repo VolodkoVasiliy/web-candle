@@ -59,9 +59,9 @@ export default function AddProductPage() {
         const proportion = jimpImage.height / jimpImage.width
         const compressedImage = await jimpImage
             .resize({
-                w: 150 / proportion,
-                h: 150
-            }).getBase64('image/png')
+                w: 1000 / proportion,
+                h: 1000
+            }).getBase64('image/jpeg')
 
         const blobResponce = await fetch(compressedImage)
         const blobImage = await blobResponce.blob()
