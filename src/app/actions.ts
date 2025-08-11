@@ -19,11 +19,11 @@ export type Collection = typeof collection.$inferInsert;
 const collectionInsertSchema = createInsertSchema(collection);
 
 
-export async function addCollection(newCollection: Collection & { image: Blob }) {
+export async function addCollection(newCollection: Collection & { image: string }) {
     try {
         const blob = await put(newCollection.collectionName, newCollection.image, {
             access: 'public',
-            addRandomSuffix: true
+            addRandomSuffix: true,
         });
 
         const parsed = collectionInsertSchema.parse(newCollection)

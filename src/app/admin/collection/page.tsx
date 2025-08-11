@@ -10,7 +10,7 @@ import { Loading } from '@/components/Loader/Loading';
 import clsx from 'clsx';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { redirect } from "next/navigation"
-import imageBlobReduce from 'image-blob-reduce'
+import { Jimp } from 'jimp'
 
 interface IFormInputs {
     name: string;
@@ -39,7 +39,14 @@ export default function AddProductPage() {
     const submitHandler: SubmitHandler<IFormInputs> = async (data) => {
         setIsLoading(() => true)
 
-        const compressedImage = await imageBlobReduce().toBlob(data.image[0], { max: 500 })
+        const compressedImage = await
+            (await Jimp.fromBuffer(
+                await data.image[0].arrayBuffer()
+            ))
+                .resize({
+                    w: 150,
+                    h: 150
+                }).getBase64('image/png')
 
         addCollection({
             collectionName: data.name,
