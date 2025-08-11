@@ -6,7 +6,7 @@ import { Box, Button, Container, IconButton } from "@mui/material"
 import styles from './page.module.scss'
 import { useState } from "react"
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useRouter } from "next/navigation"
+import { redirect } from "next/navigation"
 import { QuantitySelector } from "@/components/QantitySelector/QuantitySelector"
 import { EmptyCart } from "./EmptyCart"
 import Link from "next/link"
@@ -14,12 +14,11 @@ export default function CartPage() {
     const dispatch = useAppDispatch()
     const { products } = useAppSelector(selectCart)
     const [code, setCode] = useState<string>('')
-    const router = useRouter();
 
     return (
         <Container className="flex flex-col relative size-dvh">
             <Box className={styles.pageHeader}>
-                <IconButton onClick={() => router.back()} className={styles.pageArrowButton}>
+                <IconButton onClick={() => redirect('/shop')} className={styles.pageArrowButton}>
                     <ArrowBackIcon color="inherit" />
                 </IconButton>
                 <h1>Cart</h1>

@@ -7,7 +7,7 @@ import styles from './page.module.scss'
 import { IconButton, Button, Snackbar, Alert, Container, Box, SnackbarCloseReason } from '@mui/material';
 import clsx from 'clsx';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { redirect, useRouter } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import { useAppSelector } from '@/store/hooks';
 import { selectCart } from '@/store/cart/cartSlice';
 import { Loading } from '@/components/Loader/Loading';
@@ -22,7 +22,6 @@ interface IFormInputs {
 
 export default function CheckoutPage() {
     const { handleSubmit, register, formState } = useForm<IFormInputs>()
-    const router = useRouter();
     const { products } = useAppSelector(selectCart)
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [open, setOpen] = useState(false);
@@ -41,14 +40,14 @@ export default function CheckoutPage() {
                 zipCode: data.zipCode ?? undefined
             }, products)
 
-        } catch (e) {
-            console.log(e)
+        } catch {
             setIsLoading(false)
             setMessage('Smth went wron. try again')
             setIsSuccess(false)
             setOpen(true)
         } finally {
             if (url) {
+                localStorage.removeItem('cart')
                 redirect(url)
             }
         }
@@ -72,7 +71,7 @@ export default function CheckoutPage() {
     return (
         <Container>
             <Box className={styles.pageHeader}>
-                <IconButton onClick={() => router.back()} className={styles.pageArrowButton}>
+                <IconButton onClick={() => redirect('/cart')} className={styles.pageArrowButton}>
                     <ArrowBackIcon color="inherit" />
                 </IconButton>
                 <h1>Checkout</h1>

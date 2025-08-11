@@ -9,7 +9,8 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { Loading } from '@/components/Loader/Loading';
 import clsx from 'clsx';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useRouter } from "next/navigation"
+import { redirect } from "next/navigation"
+import imageBlobReduce from 'image-blob-reduce'
 
 interface IFormInputs {
     name: string;
@@ -31,7 +32,6 @@ export default function AddProductPage() {
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState('')
     const [isSuccess, setIsSuccess] = useState(true)
-    const router = useRouter();
 
     const handleClose = (
         event: React.SyntheticEvent | Event,
@@ -52,8 +52,11 @@ export default function AddProductPage() {
         })
     }, [])
 
-    const submitHandler: SubmitHandler<IFormInputs> = (data) => {
+    const submitHandler: SubmitHandler<IFormInputs> = async (data) => {
         setIsLoading(() => true)
+
+        const compressedImage = await imageBlobReduce().toBlob(data.image[0], { max: 500 })
+
         addProduct({
             productName: data.name,
             burnTime: data.burnTime,
@@ -61,7 +64,7 @@ export default function AddProductPage() {
             size: data.size,
             collectionId: data.collection,
             productDescription: data.description,
-            image: data.image[0],
+            image: compressedImage,
             scent: data.scent,
             productSubTitle: data.subtitle,
             type: data.type
@@ -85,7 +88,7 @@ export default function AddProductPage() {
     return (
         <Container>
             <Box className={styles.pageHeader}>
-                <IconButton onClick={() => router.back()} className={styles.pageArrowButton}>
+                <IconButton onClick={() => redirect('/admin')} className={styles.pageArrowButton}>
                     <ArrowBackIcon color="inherit" />
                 </IconButton>
                 <h1>Add product</h1>

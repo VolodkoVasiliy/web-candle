@@ -1,20 +1,15 @@
-'use client'
-
-import { Box, Container, IconButton } from '@mui/material'
+import { Box, Container } from '@mui/material'
 import styles from './page.module.scss'
 import Link from 'next/link'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useRouter } from "next/navigation"
 
 export default function AdminPage() {
-    const router = useRouter();
-
     return (
         <Container className={styles.container}>
             <Box className={styles.pageHeader}>
-                <IconButton onClick={() => router.back()} className={styles.pageArrowButton}>
+                <Link href={'/cart'} className={styles.pageArrowButton}>
                     <ArrowBackIcon color="inherit" />
-                </IconButton>
+                </Link>
                 <h1>Addmin panel</h1>
             </Box>
             <p className={styles.productTitle}>Manage Products</p>

@@ -19,9 +19,9 @@ export type Collection = typeof collection.$inferInsert;
 const collectionInsertSchema = createInsertSchema(collection);
 
 
-export async function addCollection(newCollection: Collection & { image: File }) {
+export async function addCollection(newCollection: Collection & { image: Blob }) {
     try {
-        const blob = await put(newCollection.image.name, newCollection.image, {
+        const blob = await put(newCollection.collectionName, newCollection.image, {
             access: 'public',
             addRandomSuffix: true
         });
@@ -40,13 +40,13 @@ export type Product = typeof product.$inferInsert;
 
 const productInsertSchema = createInsertSchema(product);
 
-export async function addProduct(newProduct: Omit<Product, 'priceId'> & { image: File }) {
+export async function addProduct(newProduct: Omit<Product, 'priceId'> & { image: Blob }) {
     try {
-        const blob = await put(newProduct.image.name, newProduct.image, {
+        const blob = await put(newProduct.productName, newProduct.image, {
             access: 'public',
             addRandomSuffix: true
         });
-        console.log('1')
+
         const { id } = await stripe.prices.create({
             currency: 'pln',
             unit_amount: newProduct.price,
@@ -71,10 +71,14 @@ export async function getProductByCollectionId(id: number): Promise<Product[]> {
 }
 
 export async function getProductWithCollectionById(id: number): Promise<{ product: Omit<Product, 'createdAt' | 'updatedAt'>, collection: Collection }> {
-    //eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { createdAt, updatedAt, ...rest } = getTableColumns(product)
-    const res = await db.select({ product: { ...rest }, collection }).from(product).innerJoin(collection, eq(product.collectionId, collection.id)).where(eq(product.id, id))
-    return res[0]
+    try {
+        //eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { createdAt, updatedAt, ...rest } = getTableColumns(product)
+        const res = await db.select({ product: { ...rest }, collection }).from(product).innerJoin(collection, eq(product.collectionId, collection.id)).where(eq(product.id, id))
+        return res[0]
+    } catch {
+        throw new Error('product not found')
+    }
 }
 
 export async function getCollectionsWithProducts() {
@@ -110,18 +114,18 @@ export async function placeOrder(newOrderHeader: OrderHeader, products: Array<Pr
     const origin = headersList.get('origin')
 
     const parsedHeader = orderHeaderInsertSchema.parse(newOrderHeader)
-    const resp = await db.insert(orderHeader).values(parsedHeader).returning({ orderId: orderHeader.id })
+    const [{ orderId }] = await db.insert(orderHeader).values(parsedHeader).returning({ orderId: orderHeader.id })
 
     const orderItems: OrderItem[] = products.map(p => {
         return {
-            order_id: resp[0].orderId,
+            order_id: orderId,
             product_id: p.id!,
             quantity: p.quantity
         }
     })
     const parsedItems = orderItems.map(i => orderItemInsertSchema.parse(i))
 
-    await db.insert(orderItem).values(parsedItems)
+    await db.insert(orderItem).values(parsedItems).returning()
 
     const { url } = await stripe.checkout.sessions.create({
         line_items: products.map(p => ({
@@ -129,10 +133,12 @@ export async function placeOrder(newOrderHeader: OrderHeader, products: Array<Pr
             quantity: p.quantity,
         })),
         mode: 'payment',
+        metadata: {
+            orderId
+        },
         success_url: `${origin}/cart/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${origin}/?canceled=true`
     });
-    console.log(url)
-    return url
 
+    return url
 }
