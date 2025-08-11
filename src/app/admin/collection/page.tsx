@@ -38,20 +38,21 @@ export default function AddProductPage() {
 
     const submitHandler: SubmitHandler<IFormInputs> = async (data) => {
         setIsLoading(() => true)
+        const jimpImage = await Jimp.fromBuffer(await data.image[0].arrayBuffer())
+        const proportion = jimpImage.height / jimpImage.width
+        const compressedImage = await jimpImage
+            .resize({
+                w: 150 / proportion,
+                h: 150
+            }).getBase64('image/png')
 
-        const compressedImage = await
-            (await Jimp.fromBuffer(
-                await data.image[0].arrayBuffer()
-            ))
-                .resize({
-                    w: 150,
-                    h: 150
-                }).getBase64('image/png')
+        const blobResponce = await fetch(compressedImage)
+        const blobImage = await blobResponce.blob()
 
         addCollection({
             collectionName: data.name,
             collectionDescription: data.description,
-            image: compressedImage,
+            image: blobImage,
         }).then(() => {
             setMessage('Uploaded successfully')
             reset()
