@@ -9,6 +9,7 @@ import { eq, getTableColumns } from 'drizzle-orm';
 import { orderHeader, orderItem } from "@/utils/schema/order-schema";
 import { stripe } from "@/utils/stripe";
 import { headers } from "next/headers";
+import base64JS from 'base64-js'
 
 export async function getCollections() {
     return await db.select().from(collection);
@@ -19,11 +20,12 @@ export type Collection = typeof collection.$inferInsert;
 const collectionInsertSchema = createInsertSchema(collection);
 
 
-export async function addCollection(newCollection: Collection & { image: string }) {
+export async function addCollection(newCollection: Collection & { image: Blob }) {
     try {
         const blob = await put(newCollection.collectionName, newCollection.image, {
             access: 'public',
             addRandomSuffix: true,
+            contentType: 'image/png'
         });
 
         const parsed = collectionInsertSchema.parse(newCollection)
