@@ -24,6 +24,7 @@
     "better-sqlite3": "^12.2.0",
     "drizzle-orm": "^0.44.4",
     "drizzle-zod": "^0.8.3",
+    "image-blob-reduce": "^4.1.0",
     "lucide-react": "^0.539.0",
     "next": "^15.3.3",
     "react": "^19.0.0",
@@ -31,6 +32,7 @@
     "react-hook-form": "^7.60.0",
     "react-redux": "^9.2.0",
     "serverless-finch": "^4.0.4",
+    "sharp": "^0.34.3",
     "stripe": "^18.4.0",
     "tailwind-merge": "^3.3.1"
   },
@@ -38,6 +40,7 @@
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "@types/better-sqlite3": "^7.6.13",
+    "@types/image-blob-reduce": "^4.1.4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

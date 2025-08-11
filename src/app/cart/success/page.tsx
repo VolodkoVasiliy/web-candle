@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation'
 import { stripe } from '@/utils/stripe'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Link from 'next/link';
+import { useEffect } from 'react';
 
 export default async function SuccessPage({
     searchParams,

@@ -10,6 +10,7 @@ import { ProductCarousel } from "@/components/ProductCarousel/ProductCarousel";
 import { QuantitySelector } from "@/components/QantitySelector/QuantitySelector";
 import { Collection, getProductByCollectionId, getProductWithCollectionById, Product } from "@/app/actions";
 import { Loading } from "@/components/Loader/Loading";
+import { redirect } from "next/navigation";
 
 export default function ProductPage({
     params,
@@ -22,12 +23,15 @@ export default function ProductPage({
     const [relatedProducts, setRelatedProducts] = useState<Product[]>([])
     const dispatch = useAppDispatch()
     const { products: cartProducts } = useAppSelector(selectCart)
-    console.log(cartProducts)
+    const [isError, setIsError] = useState<boolean>(false)
     useEffect(() => {
-        getProductWithCollectionById(Number(id)).then(data => {
-            setProduct(data.product)
-            setCollection(data.collection)
-        })
+        getProductWithCollectionById(Number(id))
+            .then(data => {
+                setProduct(data.product)
+                setCollection(data.collection)
+            }).catch(() => {
+                setIsError(true)
+            })
         window.scrollTo(0, 0)
     }, [id])
 
@@ -37,7 +41,9 @@ export default function ProductPage({
             .then(data => setRelatedProducts(data.filter(p => p.id !== product.id)))
     }, [product])
 
-    if (isNaN(Number(id))) return
+    if (isError) {
+        redirect('/shop')
+    }
 
     if (!product || !collection) {
         return <Loading />
