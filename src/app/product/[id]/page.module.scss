@@ -63,3 +63,31 @@
     color: #171412;
     line-height: 23px;
 }
+
+.optionsWraper {
+    margin: 10px 0;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    color: #171412;
+
+    .optionsButonBox {
+        display: flex;
+        gap: 10px;
+
+        .optionButton {
+            color: #171412;
+            width: 84px;
+            height: 40px;
+            border-radius: 20px;
+            background-color: #F5F2F0;
+            font-weight: 800;
+            font-size: 14px;
+            text-transform: none;
+
+            &.currentOptionButton {
+                background-color: #F27A21;
+            }
+        }
+    }
+}

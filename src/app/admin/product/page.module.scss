@@ -1,11 +1,24 @@
 .form {
-    padding-top: 24px;
     display: flex;
     flex-direction: column;
     gap: 10px;
     align-items: center;
     width: 90vw;
     margin: 0 auto;
+
+    .productDescriptionContainer {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        height: 40px;
+
+        &.collapsed {
+            background-color: rgba(233, 251, 240, 0.768);
+            border: 1 px solid rgb(198, 246, 217);
+        }
+    }
 
     .inputFileWrapper {
         width: 100%;
@@ -144,16 +157,21 @@
 }
 
 .submitBtn {
-    margin-top: 10px !important;
-    width: 100% !important;
+    width: 90% !important;
     height: 48px !important;
-    background-color: #F27A21 !important;
+    background-color: rgb(167, 189, 135) !important;
+
     color: #171412 !important;
     border-radius: 20px !important;
     font-size: 14px !important;
     font-weight: 800 !important;
     line-height: 21px !important;
-    align-self: flex-end !important;
+
+    &.finishBtn {
+        background-color: #F27A21 !important;
+        position: absolute;
+        bottom: 10px;
+    }
 }
 
 .pageHeader {
@@ -162,9 +180,17 @@
     height: 70px;
     justify-content: center;
     align-items: center;
+    width: 100%;
 
     .pageArrowButton {
         position: absolute;
         left: 5px;
     }
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
 }

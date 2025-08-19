@@ -1,0 +1,1 @@
+ALTER TABLE `variant` ADD `title` text NOT NULL;

@@ -1,22 +1,38 @@
-'use client'
 import { Collection } from "@/components/Collection/Collection";
 import { Container } from "@mui/material";
 import styles from './page.module.scss'
-import { useEffect, useState } from "react";
-import { Collection as CollectionType, getCollectionsWithProducts, Product } from "@/app/actions";
-import { Loading } from "@/components/Loader/Loading";
+import { Collection as CollectionType, Product, Variant } from "@/app/actions";
+import { db } from "@/utils/db";
+import { collection } from "@/utils/schema/collection-schema";
+import { product } from "@/utils/schema/product-schema";
+import { eq } from "drizzle-orm";
+import { variant } from "@/utils/schema/variant-schems";
 
-export default function CollectionPage2() {
-    const [collections, setCollections] = useState<Array<CollectionType & { products: Product[] }>>([])
+export default async function CollectionPage() {
+    const res = await db
+        .select()
+        .from(collection)
+        .leftJoin(product, eq(collection.id, product.collectionId))
+        .all()
 
-    useEffect(() => {
-        getCollectionsWithProducts()
-            .then(data => setCollections(data))
-    }, [])
+    const variants = await db.select().from(variant)
 
-    if (collections.length === 0) {
-        return <Loading />
-    }
+
+    const collections = res
+        .reduce<Array<CollectionType & { products: Array<Product & Variant> }>>((acc, { collection, product }) => {
+            const index = acc.findIndex(e => e.id === collection.id)
+            const variant = variants.find(v => v.productId === product!.id)!
+
+            if (index !== -1 && product) {
+                acc[index].products.push({ ...product, ...variant })
+            } else {
+                acc.push({
+                    ...collection,
+                    products: product ? [{ ...product, ...variant }] : []
+                })
+            }
+            return acc
+        }, [])
 
     return (
         <Container className={styles.container}>

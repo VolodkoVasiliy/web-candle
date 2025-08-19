@@ -1,84 +1,57 @@
-'use client'
-
-import { Box, Button, Container } from "@mui/material";
-import { use, useEffect, useState } from "react";
-import styles from './page.module.scss'
-import { Details } from "@/components/Details/Details";
-import { addProductToCart, decreaseQuantity, increaseQuantity, selectCart } from "@/store/cart/cartSlice";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { ProductCarousel } from "@/components/ProductCarousel/ProductCarousel";
-import { QuantitySelector } from "@/components/QantitySelector/QuantitySelector";
-import { Collection, getProductByCollectionId, getProductWithCollectionById, Product } from "@/app/actions";
-import { Loading } from "@/components/Loader/Loading";
+import { db } from "@/utils/db";
+import { getTableColumns, eq } from "drizzle-orm";
+import ProductComponent from "./ProductComponent";
+import { product } from "@/utils/schema/product-schema";
+import { collection } from "@/utils/schema/collection-schema";
 import { redirect } from "next/navigation";
+import { variant } from "@/utils/schema/variant-schems";
+import { Collection, Product, Variant } from "@/app/actions";
 
-export default function ProductPage({
+export default async function ProductPage({
     params,
 }: {
     params: Promise<{ id: string }>
 }) {
-    const { id } = use(params)
-    const [product, setProduct] = useState<Product | undefined>(undefined)
-    const [collection, setCollection] = useState<Collection | undefined>(undefined)
-    const [relatedProducts, setRelatedProducts] = useState<Product[]>([])
-    const dispatch = useAppDispatch()
-    const { products: cartProducts } = useAppSelector(selectCart)
-    const [isError, setIsError] = useState<boolean>(false)
-    useEffect(() => {
-        getProductWithCollectionById(Number(id))
-            .then(data => {
-                setProduct(data.product)
-                setCollection(data.collection)
-            }).catch(() => {
-                setIsError(true)
-            })
-        window.scrollTo(0, 0)
-    }, [id])
+    const { id } = await params
 
-    useEffect(() => {
-        if (!product) return
-        getProductByCollectionId(product.collectionId!)
-            .then(data => setRelatedProducts(data.filter(p => p.id !== product.id)))
-    }, [product])
+    //eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { createdAt, updatedAt, ...rest } = getTableColumns(product)
 
-    if (isError) {
+    let productWithCollection, relatedProducts
+
+    try {
+        productWithCollection = (await db
+            .select({ product: { ...rest }, collection, variant })
+            .from(product)
+            .innerJoin(collection, eq(
+                product.collectionId, collection.id)
+            )
+            .innerJoin(variant, eq(product.id, variant.productId))
+            .where(
+                eq(product.id, Number(id))
+            )).reduce<{ product: Product, collection: Collection, variants: Variant[] }>((acc, p) => {
+                return {
+                    product: p.product,
+                    collection: p.collection,
+                    variants: acc.variants ? [...acc.variants, p.variant] : [p.variant]
+                }
+            }, {} as any)
+
+        console.log(productWithCollection)
+
+        relatedProducts = (await db
+            .select({ product: { ...rest }, variant })
+            .from(product)
+            .innerJoin(variant, eq(product.id, variant.productId))
+            .where(
+                eq(product.collectionId, productWithCollection.product.collectionId!)
+            )).map(pr => ({
+                ...pr.product,
+                ...pr.variant
+            }))
+    } catch {
         redirect('/shop')
     }
 
-    if (!product || !collection) {
-        return <Loading />
-    }
-
-    const quantity = cartProducts.find(pr => pr.id === product.id)?.quantity || 0
-
-    return (
-        <Container className={styles.container}>
-            <Box className={styles.img} sx={{ height: 218, backgroundImage: `url(${product.imageUrl})` }} />
-            <Box className={styles.priceContainer}>
-                <Button className={styles.priceButton}>{product.price} zl</Button>
-                {
-                    quantity === 0
-                        ?
-                        <Button
-                            className={styles.addButton}
-                            onClick={() => dispatch(addProductToCart(product))}
-                        >
-                            Add to Cart
-                        </Button>
-                        :
-                        <QuantitySelector
-                            quantity={quantity}
-                            increase={() => dispatch(increaseQuantity(product))}
-                            decrease={() => dispatch(decreaseQuantity(product))}
-                        />
-                }
-            </Box>
-            <p className={styles.productTitle}>{product.productName}</p>
-            <p className={styles.productDescription}>{product.productDescription}</p>
-            <p className={styles.details}>Details</p>
-            <Details {...product} collectionName={collection.collectionName} />
-            <p className={styles.relatedTitle}>Related Products</p>
-            <ProductCarousel products={relatedProducts} />
-        </Container>
-    )
+    return <ProductComponent productWithCollection={productWithCollection} relatedProducts={relatedProducts} />
 }

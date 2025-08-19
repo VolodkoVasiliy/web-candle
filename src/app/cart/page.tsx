@@ -28,17 +28,17 @@ export default function CartPage() {
                     ? <EmptyCart />
                     : <>
                         <Box className={styles.productListContainer}>
-                            {products.map(product => {
+                            {products.map(({ product, variant, quantity }) => {
                                 return (
-                                    <Box className={styles.productContainer} key={product.id}>
+                                    <Box className={styles.productContainer} key={`${product.id}-${variant.id}`}>
                                         <Box className={styles.productWrapper}>
                                             <Box className={styles.productImg} sx={{ backgroundImage: `url(${product.imageUrl})` }} />
                                             <p>{product.productName}</p>
                                         </Box>
                                         <QuantitySelector
-                                            quantity={product.quantity}
-                                            increase={() => dispatch(increaseQuantity(product))}
-                                            decrease={() => dispatch(decreaseQuantity(product))}
+                                            quantity={quantity}
+                                            increase={() => dispatch(increaseQuantity({ product, variant }))}
+                                            decrease={() => dispatch(decreaseQuantity({ product, variant }))}
                                         />
                                     </Box>
                                 )
@@ -49,7 +49,7 @@ export default function CartPage() {
                         <Box className={styles.bottomPart}>
                             <Box className={styles.subtotal}>
                                 <p>Subtotal</p>
-                                <p>{products.reduce((acc, pr) => acc += pr.price * pr.quantity, 0)}</p>
+                                <p>{products.reduce((acc, { variant, quantity }) => acc += variant.price * quantity, 0) / 100}</p>
                             </Box>
                             <Link className={styles.checkoutButton} href={'/cart/checkout'}>Go to checkout</Link>
                         </Box>

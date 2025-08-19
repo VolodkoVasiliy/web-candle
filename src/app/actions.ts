@@ -9,6 +9,7 @@ import { eq, getTableColumns } from 'drizzle-orm';
 import { orderHeader, orderItem } from "@/utils/schema/order-schema";
 import { stripe } from "@/utils/stripe";
 import { headers } from "next/headers";
+import { variant } from "@/utils/schema/variant-schems";
 
 export async function getCollections() {
     return await db.select().from(collection);
@@ -41,27 +42,40 @@ export type Product = typeof product.$inferInsert;
 
 const productInsertSchema = createInsertSchema(product);
 
-export async function addProduct(newProduct: Omit<Product, 'priceId'> & { image: Blob }) {
+export type Variant = typeof variant.$inferInsert;
+
+const variantInsertSchema = createInsertSchema(variant);
+
+export async function addProduct(newProduct: Product, image: Blob, variants: Omit<Variant, 'priceId'>[]) {
     try {
-        const blob = await put(newProduct.productName, newProduct.image, {
+        const blob = await put(newProduct.productName, image, {
             access: 'public',
             addRandomSuffix: true
         });
 
-        const { id } = await stripe.prices.create({
-            currency: 'pln',
-            unit_amount: newProduct.price,
-            product_data: {
-                name: newProduct.productName,
-            },
-        });
+        const parsed = productInsertSchema.parse({ ...newProduct, imageUrl: blob.url })
+        const [{ productId }] = await db.insert(product).values({ ...parsed }).returning({ productId: product.id })
 
-        const parsed = productInsertSchema.parse({ ...newProduct, priceId: id, imageUrl: blob.url })
-        await db.insert(product).values({ ...parsed })
+        const variantPromises = variants.map(async (v) => {
+            const { id: priceId } = await stripe.prices.create({
+                currency: 'pln',
+                unit_amount: v.price,
+                product_data: {
+                    name: newProduct.productName,
+                },
+            });
+
+            const parsed = variantInsertSchema.parse({ ...v, priceId, productId })
+
+            await db.insert(variant).values({ ...parsed })
+        })
+
+        await Promise.all(variantPromises)
+
         return { success: true }
 
     } catch {
-        throw new Error('Smth went wrong')
+        throw new Error('smth went wrong')
     }
 
 }
@@ -110,17 +124,23 @@ const orderHeaderInsertSchema = createInsertSchema(orderHeader);
 const orderItemInsertSchema = createInsertSchema(orderItem);
 
 
-export async function placeOrder(newOrderHeader: OrderHeader, products: Array<Product & { quantity: number }>) {
+export async function placeOrder(
+    newOrderHeader: OrderHeader,
+    products: Array<{ product: Product; quantity: number; variant: Variant }>
+) {
     const headersList = await headers()
     const origin = headersList.get('origin')
 
     const parsedHeader = orderHeaderInsertSchema.parse(newOrderHeader)
-    const [{ orderId }] = await db.insert(orderHeader).values(parsedHeader).returning({ orderId: orderHeader.id })
+    const [{ orderId }] = await db
+        .insert(orderHeader)
+        .values(parsedHeader)
+        .returning({ orderId: orderHeader.id })
 
     const orderItems: OrderItem[] = products.map(p => {
         return {
             order_id: orderId,
-            product_id: p.id!,
+            product_id: p.product.id!,
             quantity: p.quantity
         }
     })
@@ -130,7 +150,7 @@ export async function placeOrder(newOrderHeader: OrderHeader, products: Array<Pr
 
     const { url } = await stripe.checkout.sessions.create({
         line_items: products.map(p => ({
-            price: p.priceId!,
+            price: p.variant.priceId!,
             quantity: p.quantity,
         })),
         mode: 'payment',
