@@ -28,5 +28,7 @@ export default async function ShopPage() {
         return acc
     }, [])
 
+    console.log(collections)
+
     return <ShopComponent collections={collections} />
 }
