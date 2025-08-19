@@ -1,71 +1,32 @@
-'use client'
+import { Collection, Product } from "@/app/actions";
+import ShopComponent from "./ShopComponent";
+import { db } from "@/utils/db";
+import { collection } from "@/utils/schema/collection-schema";
+import { product } from "@/utils/schema/product-schema";
+import { eq } from "drizzle-orm";
+import { variant } from "@/utils/schema/variant-schems";
 
-import { Box, Button, Container, Divider } from "@mui/material";
-import styles from './page.module.scss'
-import { useEffect, useMemo, useState } from "react";
-import clsx from 'clsx'
-import { Collection as CollectionType, getCollectionsWithProducts, Product } from "@/app/actions";
-import { Loading } from "@/components/Loader/Loading";
-import Link from "next/link";
+export default async function ShopPage() {
+    const res = await db
+        .select()
+        .from(collection)
+        .leftJoin(product, eq(collection.id, product.collectionId))
+        .all()
 
-export default function ShopPage() {
-    const [filter, setFilter] = useState<string>('All')
-    const [collections, setCollections] = useState<Array<CollectionType & { products: Product[] }>>([])
-    const [filterList, setFilterList] = useState<string[]>([])
-
-    const filterdProducts = useMemo(() => {
-        if (filter === 'All') {
-            return collections.reduce<Product[]>((acc, col) => [...acc, ...col.products], [])
-        }
-
-        return collections.find(col => col.collectionName === filter)?.products || []
-    }, [filter, collections])
-
-    useEffect(() => {
-        getCollectionsWithProducts()
-            .then(data => {
-                setCollections(data)
-                setFilterList(['All', ...data.map(d => d.collectionName)])
+    const variants = await db.select().from(variant)
+    const collections = res.reduce<Array<Collection & { products: Array<Product & { price: number }> }>>((acc, { collection, product }) => {
+        const index = acc.findIndex(e => e.id === collection.id)
+        const price = variants.find(v => v.productId === product?.id)?.price || 0
+        if (index !== -1 && product) {
+            acc[index].products.push({ ...product, price })
+        } else {
+            acc.push({
+                ...collection,
+                products: product ? [{ ...product, price }] : [],
             })
-
+        }
+        return acc
     }, [])
 
-    if (collections.length === 0) {
-        return <Loading />
-    }
-
-    return (
-        <Container className={styles.container}>
-            <Box className={styles.filtersContainer}>
-                {
-                    filterList.map(f => {
-                        return (
-                            <Button
-                                className={clsx(styles.filterButton, {
-                                    [styles.active]: filter === f
-                                })}
-                                key={f}
-                                onClick={() => setFilter(f)}
-                            >
-                                {f}
-                            </Button>
-                        )
-                    })
-                }
-            </Box>
-            <Divider flexItem variant="fullWidth" className={styles.divider} />
-            <Box className={styles.productList}>
-                {filterdProducts.map(el => {
-                    return <Link className={styles.product} key={el.id} href={`/product/${el.id}`}>
-                        <Box className={styles.productImg} sx={{ backgroundImage: `url(${el.imageUrl})` }} />
-                        <Box className={styles.titleWrapper}>
-                            <p className={styles.productTitle}>{el.productName}</p>
-                            {/* <p className={styles.productSubtitle}>{el.subtitle}</p> */}
-                            <p className={styles.productPrice}>{el.price} zl</p>
-                        </Box>
-                    </Link>
-                })}
-            </Box>
-        </Container>
-    )
+    return <ShopComponent collections={collections} />
 }

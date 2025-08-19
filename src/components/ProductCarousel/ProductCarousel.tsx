@@ -1,9 +1,9 @@
 import { Box } from '@mui/material'
 import Link from 'next/link'
 import styles from './ProductCarousel.module.scss'
-import { Product } from '@/app/actions'
+import { Product, Variant } from '@/app/actions'
 
-export const ProductCarousel = ({ products, withPrice = true }: { products: Product[], withPrice?: boolean }) => {
+export const ProductCarousel = ({ products, withPrice = true }: { products: Array<Product & Variant>, withPrice?: boolean }) => {
     return (
         <Box className={styles.relatedWrapper}>
             <Box className={styles.relatedList}>

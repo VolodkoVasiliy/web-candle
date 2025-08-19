@@ -1,14 +1,13 @@
 import { Box, Divider } from '@mui/material';
 import styles from './Details.module.scss'
-import { Product } from '@/app/actions';
 
 export const Details = ({
     collectionName,
-    scent,
+    // scent,
     size,
     burnTime,
     type
-}: Product & { collectionName: string }) => {
+}: { collectionName: string; size: string; burnTime: string, scent: string, type: string }) => {
     return (
         <Box className={styles.container}>
             <Divider flexItem />
@@ -18,22 +17,22 @@ export const Details = ({
             </Box>
             <Divider flexItem />
             <Box className={styles.detailWrapper}>
-                <p className={styles.key}>Burn Time</p>
+                <p className={styles.key}>Время горения</p>
                 <p className={styles.value}>{burnTime}</p>
             </Box>
-            <Divider flexItem />
+            {/* <Divider flexItem />
             <Box className={styles.detailWrapper}>
-                <p className={styles.key}>Scent</p>
+                <p className={styles.key}>Запах</p>
                 <p className={styles.value}>{scent}</p>
-            </Box>
+            </Box> */}
             <Divider flexItem />
             <Box className={styles.detailWrapper}>
-                <p className={styles.key}>Type</p>
+                <p className={styles.key}>Тип</p>
                 <p className={styles.value}>{type}</p>
             </Box>
             <Divider flexItem />
             <Box className={styles.detailWrapper}>
-                <p className={styles.key}>Collection</p>
+                <p className={styles.key}>Коллекция</p>
                 <p className={styles.value}>{collectionName}</p>
             </Box>
         </Box>

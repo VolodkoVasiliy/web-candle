@@ -24,6 +24,7 @@ export default async function SuccessPage({
     }
 
     if (res.status === 'complete') {
+
         return (
             <Container className={styles.container}>
                 <Box className={styles.pageHeader}>
@@ -36,7 +37,7 @@ export default async function SuccessPage({
                 </Box>
                 <Box className={styles.confirmationBox}>
                     <p className={styles.title}>Thank you for your order!</p>
-                    <p className={styles.text}>Your order has been placed and is being processed. You will receive an email confirmation shortly.</p>
+                    <p className={styles.text}>Your order has been placed and is being processed. You will receive an email to <strong>{res.customer_details?.email}</strong> with confirmation shortly.</p>
                 </Box>
                 <Link href={'/'} className={styles.btn}>Continue shopping</Link>
             </Container>

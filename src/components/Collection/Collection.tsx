@@ -1,10 +1,10 @@
 import { Box } from "@mui/material"
 import { ProductCarousel } from "../ProductCarousel/ProductCarousel";
 import styles from './Collection.module.scss'
-import { Collection as CollectionType, Product } from "@/app/actions";
+import { Collection as CollectionType, Product, Variant } from "@/app/actions";
 
 export interface ICollection extends CollectionType {
-    products: Product[]
+    products: Array<Product & Variant>
 }
 
 export const Collection = ({ collectionName, collectionDescription, products }: ICollection) => {

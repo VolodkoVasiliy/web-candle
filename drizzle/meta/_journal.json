@@ -15,6 +15,20 @@
       "when": 1754849230475,
       "tag": "0001_pink_ben_parker",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1755028495167,
+      "tag": "0002_heavy_meltdown",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1755542265403,
+      "tag": "0003_spicy_thunderbolt_ross",
+      "breakpoints": true
     }
   ]
 }
