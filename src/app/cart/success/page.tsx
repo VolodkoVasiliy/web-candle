@@ -4,6 +4,10 @@ import { redirect } from 'next/navigation'
 import { stripe } from '@/utils/stripe'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Link from 'next/link';
+import { Resend } from 'resend';
+import { ConfirmationLetter, InnerLightRecieptMail } from './ConfirmationLetter/ConfirmationLetter';
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export default async function SuccessPage({
     searchParams,
@@ -22,6 +26,39 @@ export default async function SuccessPage({
     if (res.status === 'open') {
         return redirect('/')
     }
+
+    console.log(res)
+    console.log(res.line_items?.data)
+    const { orderId, name, addres } = res.metadata!
+    const lineItems = res.line_items!.data
+    resend.emails.send({
+        from: 'Inner Light <inner.light.wroclaw@inner-light.pl>',
+        to: [res.customer_details!.email!],
+        subject: 'Order confirmation from Inner Light',
+        react: InnerLightRecieptMail({
+            orderId,
+            name,
+            address: addres,
+            items: lineItems.map(l => ({
+                imageUrl: l.price?.metadata.imageUrl as string,
+                price: String(l.price?.unit_amount! / 100),
+                title: l.description!
+            }))
+        }),
+        replyTo: 'onboarding@resend.dev',
+    }, {
+        // idempotencyKey: `ored-id-${res.metadata?.orderId}`
+    });
+
+    resend.emails.send({
+        from: 'Inner Light <inner.light.wroclaw@inner-light.pl>',
+        to: ['inner.light.wroclaw@gmail.com'],
+        subject: 'Новый заказ',
+        react: ConfirmationLetter({ orderId: res.metadata!.orderId!, lineItems: res.line_items!.data }),
+        replyTo: 'onboarding@resend.dev',
+    }, {
+        idempotencyKey: `ored-id-${res.metadata?.orderId}-host`
+    });
 
     if (res.status === 'complete') {
 

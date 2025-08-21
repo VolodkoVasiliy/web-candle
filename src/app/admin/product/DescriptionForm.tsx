@@ -166,6 +166,7 @@ export const DescriptionForm = (
                             whiteSpace: 'nowrap',
                             width: 1,
                         }}
+                        accept=".bmp,.gif,.jpeg,.png,.tiff"
                     />
                 </Button>
 
