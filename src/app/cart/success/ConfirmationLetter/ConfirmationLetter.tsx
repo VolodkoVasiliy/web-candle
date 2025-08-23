@@ -41,17 +41,12 @@ import {
     Hr,
     Html,
     Img,
-    Link,
     Preview,
     Row,
     Section,
     Text,
 } from '@react-email/components';
 import type * as React from 'react';
-
-const baseUrl = process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : '';
 
 export interface Item {
     title: string;
@@ -83,14 +78,14 @@ export const InnerLightRecieptMail = ({ orderId, name, address, items }: Props) 
                         alt="InnerLight"
                         style={{ margin: 'auto' }}
                     />
-                    <Heading style={global.heading}>It's On Its Way.</Heading>
+                    <Heading style={global.heading}>{`It's On Its Way.`}</Heading>
                     <Text style={global.text}>
-                        You order's is on its way.
+                        {`You order's is on its way.`}
                     </Text>
                 </Section>
                 <Hr style={global.hr} />
                 <Section style={global.defaultPadding}>
-                    <Text style={adressTitle}>Shipping to: {name}</Text>
+                    <Text style={adressTitle}>{`Shipping to: ${name}`}</Text>
                     <Text style={{ ...global.text, fontSize: 14 }}>
                         {address}
                     </Text>
@@ -411,84 +406,84 @@ const adressTitle = {
     fontWeight: 'bold',
 };
 
-const recomendationsText = {
-    margin: '0',
-    fontSize: '15px',
-    lineHeight: '1',
-    paddingLeft: '10px',
-    paddingRight: '10px',
-};
+// const recomendationsText = {
+//     margin: '0',
+//     fontSize: '15px',
+//     lineHeight: '1',
+//     paddingLeft: '10px',
+//     paddingRight: '10px',
+// };
 
-const recomendations = {
-    container: {
-        padding: '20px 0',
-    },
-    product: {
-        verticalAlign: 'top',
-        textAlign: 'left' as const,
-        paddingLeft: '2px',
-        paddingRight: '2px',
-    },
-    title: { ...recomendationsText, paddingTop: '12px', fontWeight: '500' },
-    text: {
-        ...recomendationsText,
-        paddingTop: '4px',
-        color: '#747474',
-    },
-};
+// const recomendations = {
+//     container: {
+//         padding: '20px 0',
+//     },
+//     product: {
+//         verticalAlign: 'top',
+//         textAlign: 'left' as const,
+//         paddingLeft: '2px',
+//         paddingRight: '2px',
+//     },
+//     title: { ...recomendationsText, paddingTop: '12px', fontWeight: '500' },
+//     text: {
+//         ...recomendationsText,
+//         paddingTop: '4px',
+//         color: '#747474',
+//     },
+// };
 
-const menu = {
-    container: {
-        paddingLeft: '20px',
-        paddingRight: '20px',
-        paddingTop: '20px',
-        backgroundColor: '#F7F7F7',
-    },
-    content: {
-        ...paddingY,
-        paddingLeft: '20px',
-        paddingRight: '20px',
-    },
-    title: {
-        paddingLeft: '20px',
-        paddingRight: '20px',
-        fontWeight: 'bold',
-    },
-    text: {
-        fontSize: '13.5px',
-        marginTop: 0,
-        fontWeight: 500,
-        color: '#000',
-    },
-    tel: {
-        paddingLeft: '20px',
-        paddingRight: '20px',
-        paddingTop: '32px',
-        paddingBottom: '22px',
-    },
-};
+// const menu = {
+//     container: {
+//         paddingLeft: '20px',
+//         paddingRight: '20px',
+//         paddingTop: '20px',
+//         backgroundColor: '#F7F7F7',
+//     },
+//     content: {
+//         ...paddingY,
+//         paddingLeft: '20px',
+//         paddingRight: '20px',
+//     },
+//     title: {
+//         paddingLeft: '20px',
+//         paddingRight: '20px',
+//         fontWeight: 'bold',
+//     },
+//     text: {
+//         fontSize: '13.5px',
+//         marginTop: 0,
+//         fontWeight: 500,
+//         color: '#000',
+//     },
+//     tel: {
+//         paddingLeft: '20px',
+//         paddingRight: '20px',
+//         paddingTop: '32px',
+//         paddingBottom: '22px',
+//     },
+// };
 
-const categories = {
-    container: {
-        width: '370px',
-        margin: 'auto',
-        paddingTop: '12px',
-    },
-    text: {
-        fontWeight: '500',
-        color: '#000',
-    },
-};
+// const categories = {
+//     container: {
+//         width: '370px',
+//         margin: 'auto',
+//         paddingTop: '12px',
+//     },
+//     text: {
+//         fontWeight: '500',
+//         color: '#000',
+//     },
+// };
 
-const footer = {
-    policy: {
-        width: '166px',
-        margin: 'auto',
-    },
-    text: {
-        margin: '0',
-        color: '#AFAFAF',
-        fontSize: '13px',
-        textAlign: 'center',
-    } as React.CSSProperties,
-};
+// const footer = {
+//     policy: {
+//         width: '166px',
+//         margin: 'auto',
+//     },
+//     text: {
+//         margin: '0',
+//         color: '#AFAFAF',
+//         fontSize: '13px',
+//         textAlign: 'center',
+//     } as React.CSSProperties,
+// };

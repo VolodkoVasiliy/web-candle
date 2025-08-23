@@ -1,5 +1,5 @@
-import styles from './page.module.scss'
+// import styles from './page.module.scss'
 
-export function FAGPage() {
+export default function FAGPage() {
     return <>hello</>
 }

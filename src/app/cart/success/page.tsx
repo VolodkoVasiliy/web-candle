@@ -41,13 +41,13 @@ export default async function SuccessPage({
             address: addres,
             items: lineItems.map(l => ({
                 imageUrl: l.price?.metadata.imageUrl as string,
-                price: String(l.price?.unit_amount! / 100),
+                price: String(l.price!.unit_amount! / 100),
                 title: l.description!
             }))
         }),
         replyTo: 'onboarding@resend.dev',
     }, {
-        // idempotencyKey: `ored-id-${res.metadata?.orderId}`
+        idempotencyKey: `ored-id-${res.metadata?.orderId}`
     });
 
     resend.emails.send({
