@@ -40,7 +40,8 @@ export default function CheckoutPage() {
                 zipCode: data.zipCode ?? undefined
             }, products)
 
-        } catch {
+        } catch (e) {
+            console.log(e)
             setIsLoading(false)
             setMessage('Smth went wron. try again')
             setIsSuccess(false)

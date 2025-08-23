@@ -54,7 +54,7 @@ export async function addProduct(newProduct: Product, image: Blob, variants: Omi
         });
 
         const parsed = productInsertSchema.parse({ ...newProduct, imageUrl: blob.url })
-        const [{ productId }] = await db.insert(product).values({ ...parsed }).returning({ productId: product.id })
+        const [{ productId, imageUrl }] = await db.insert(product).values({ ...parsed }).returning({ productId: product.id, imageUrl: product.imageUrl })
 
         const variantPromises = variants.map(async (v) => {
             const { id: priceId } = await stripe.prices.create({
@@ -63,6 +63,9 @@ export async function addProduct(newProduct: Product, image: Blob, variants: Omi
                 product_data: {
                     name: newProduct.productName,
                 },
+                metadata: {
+                    imageUrl
+                }
             });
 
             const parsed = variantInsertSchema.parse({ ...v, priceId, productId })
@@ -137,6 +140,8 @@ export async function placeOrder(
         .values(parsedHeader)
         .returning({ orderId: orderHeader.id })
 
+    console.log(1)
+
     const orderItems: OrderItem[] = products.map(p => {
         return {
             order_id: orderId,
@@ -155,7 +160,9 @@ export async function placeOrder(
         })),
         mode: 'payment',
         metadata: {
-            orderId
+            orderId,
+            name: newOrderHeader.name,
+            addres: newOrderHeader.address,
         },
         success_url: `${origin}/cart/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${origin}/?canceled=true`
