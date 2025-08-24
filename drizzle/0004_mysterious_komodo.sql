@@ -1,0 +1,1 @@
+ALTER TABLE `order_header` ADD `total_price` integer NOT NULL;

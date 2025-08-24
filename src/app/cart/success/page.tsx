@@ -6,6 +6,9 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Link from 'next/link';
 import { Resend } from 'resend';
 import { ConfirmationLetter, InnerLightRecieptMail } from './ConfirmationLetter/ConfirmationLetter';
+import { db } from '@/utils/db';
+import { orderHeader } from '@/utils/schema/order-schema';
+import { eq } from 'drizzle-orm';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -27,9 +30,12 @@ export default async function SuccessPage({
         return redirect('/')
     }
 
-    console.log(res)
-    console.log(res.line_items?.data)
+
     const { orderId, name, addres } = res.metadata!
+    db.update(orderHeader).set({ status: 'PAYED' }).where(eq(orderHeader.id, Number(orderId))).then((data) => {
+        console.log(data)
+    }).catch(e => console.log(e))
+
     const lineItems = res.line_items!.data
     resend.emails.send({
         from: 'Inner Light <inner.light.wroclaw@inner-light.pl>',

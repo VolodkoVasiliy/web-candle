@@ -5,10 +5,11 @@ export const orderHeader = sqliteTable("order_header", {
     id: int().primaryKey({ autoIncrement: true }),
     name: text("name").notNull(),
     address: text("address").notNull(),
+    totalPrice: int("total_price").notNull(),
     city: text("city").notNull(),
     phone: text("address").notNull(),
     zipCode: text("zip_code").notNull(),
-    payed: integer({ mode: 'boolean' }).default(false),
+    status: text({ enum: ['CREATED', 'PAYED', 'FULFILLED'] }).notNull().default('CREATED'),
     createdAt: integer("created_at", { mode: "timestamp" })
         .$defaultFn(() => /* @__PURE__ */ new Date())
         .notNull(),
