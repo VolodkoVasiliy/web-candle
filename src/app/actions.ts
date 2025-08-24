@@ -128,19 +128,17 @@ const orderItemInsertSchema = createInsertSchema(orderItem);
 
 
 export async function placeOrder(
-    newOrderHeader: OrderHeader,
+    newOrderHeader: Omit<OrderHeader, 'totalPrice'>,
     products: Array<{ product: Product; quantity: number; variant: Variant }>
 ) {
     const headersList = await headers()
     const origin = headersList.get('origin')
 
-    const parsedHeader = orderHeaderInsertSchema.parse(newOrderHeader)
+    const parsedHeader = orderHeaderInsertSchema.parse({ ...newOrderHeader, totalPrice: products.reduce((acc, item) => acc += item.variant.price, 0) })
     const [{ orderId }] = await db
         .insert(orderHeader)
         .values(parsedHeader)
         .returning({ orderId: orderHeader.id })
-
-    console.log(1)
 
     const orderItems: OrderItem[] = products.map(p => {
         return {

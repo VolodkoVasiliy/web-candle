@@ -1,0 +1,43 @@
+.pageHeader {
+    display: flex;
+    position: relative;
+    height: 70px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
+    .pageArrowButton {
+        position: absolute;
+        left: 5px;
+    }
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+
+    .orderListContainer {
+        padding: 16px;
+
+        .orderContainer {
+            display: flex;
+            justify-content: space-between;
+            height: 90px;
+
+            .orderDate {
+                color: #171412;
+                font-size: 16px;
+                font-weight: 500;
+            }
+
+            .orderId {
+                color: #8A7361;
+                font-size: 14px;
+            }
+
+            .orderPrice {}
+
+            .orderStatus {}
+        }
+    }
+}

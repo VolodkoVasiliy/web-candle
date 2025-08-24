@@ -29,6 +29,20 @@
       "when": 1755542265403,
       "tag": "0003_spicy_thunderbolt_ross",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1756049383734,
+      "tag": "0004_mysterious_komodo",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1756051222585,
+      "tag": "0005_mature_korath",
+      "breakpoints": true
     }
   ]
 }
